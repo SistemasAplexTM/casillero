@@ -1,0 +1,123 @@
+[
+  {
+    "path": "/",
+    "name": "Inicio",
+    "component": "Home",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "home"
+    }
+  },
+  {
+    "path": "/sent",
+    "name": "Enviado",
+    "component": "Sent",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "share-square"
+    }
+  },
+  {
+    "path": "/inventory",
+    "name": "Inventario",
+    "component": "Inventory",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "inventory"
+    }
+  },
+  {
+    "path": "/invoice",
+    "name": "Facturas",
+    "component": "Invoice",
+    "meta": {
+      "auth": true,
+      "layout": "contenOnly",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "file-invoice-dollar"
+    }
+  },
+  {
+    "path": "/tracking",
+    "name": "Rastreo",
+    "component": "Tracking",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "search-location"
+    }
+  },
+  {
+    "path": "/profile",
+    "name": "Perfil",
+    "component": "Profile",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "male"
+    }
+  },
+  {
+    "path": "/config",
+    "name": "Configuración",
+    "component": "Config",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "cogs"
+    }
+  },
+  {
+    "path": "/login",
+    "name": "login",
+    "component": "authentication/Login",
+    "meta": {
+      "nav": false,
+      "layout": "contenOnly"
+    }
+  },
+  {
+    "path": "/register",
+    "name": "register",
+    "component": "Register",
+    "meta": {
+      "nav": false,
+      "layout": "contenOnly"
+    }
+  },
+  {
+    "path": "/forgot-password",
+    "name": "forgot-password",
+    "component": "ForgotPassword",
+    "meta": {
+      "nav": false,
+      "layout": "contenOnly"
+    }
+  },
+
+  {
+    "path": "*",
+    "name": "not-found",
+    "component": "NotFound",
+    "meta": {
+      "nav": false,
+      "layout": "contenOnly"
+    }
+  }
+]
