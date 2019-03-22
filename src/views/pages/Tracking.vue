@@ -73,16 +73,21 @@ export default {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
 		}
 	},
+	mounted() {
+		this.setPageWidth()
+		this.getData()
+	},
 	methods: {
 		trackingInWH(tracking){
 			if (tracking) {
-				return tracking.length
+				var result = tracking.split(',')
+				return result.length
 			}
 			return 0
 		},
 		getData(){
 			let me = this
-			getTrackings(2).then(({data}) => {
+			getTrackings('WH00000191', null, 1892).then(({data}) => {
 				this.trackings = data.data
 			}).catch( error => error)
 		},
@@ -96,10 +101,6 @@ export default {
 		__resizeHanlder: _.throttle(function (e) {
 			this.setPageWidth()
 		}, 700)
-	},
-	mounted() {
-		this.setPageWidth()
-		this.getData()
 	}
 }
 </script>

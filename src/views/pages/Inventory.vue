@@ -19,10 +19,10 @@ export default {
     }
   },
   mounted() {
-     this.$echo.private('PrealertChannel').listen('PrealertEvent', (payload) => {
-         console.log(payload);
-         this.msg = payload.tracking
-     });
+   //   this.$echo.private('PrealertChannel').listen('PrealertEvent', (payload) => {
+   //       console.log(payload);
+   //       this.msg = payload.tracking
+   //   });
      user().then(({data}) => {
        this.users = data
      }).catch(error => { console.log(error) })

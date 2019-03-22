@@ -64,9 +64,9 @@ export default {
 	methods: {
 		Login() {
 			login(this.email, this.password, false).then(({data}) => {
-	       setToken(data.access_token)
 				 this.$store.commit('setLogin')
 	       this.$router.push({ path: '/' })
+				 setToken(data.access_token)
 				 // this.$router.push('profile')
 	     }).catch(error => {
 				 this.error = true

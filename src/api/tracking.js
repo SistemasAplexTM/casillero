@@ -1,8 +1,12 @@
 import request from '@/utils/request'
 
-export function getTrackings(idStatus) {
+export function getTrackings(data, idStatus, user_id) {
+  var url = 'http://localhost:8000/api/rastreo/getStatusReport/'+ data +'/' + idStatus + '/' + user_id
+  if (data != null) {
+    var url = 'http://localhost:8000/api/rastreo/getStatusReport/'+ data
+  }
   return request({
-    url: 'http://4plbox.test/api/rastreo/getStatusReport/null/' + idStatus,
+    url,
     method: 'get'
   })
 }

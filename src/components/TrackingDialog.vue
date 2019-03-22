@@ -4,7 +4,7 @@
 			<div class="info box grow flex">
 				<i class="fal fa-shipping-fast fa-2x m-a"></i>
 				<div class="box grow flex white-text column justify-center p-0 ml-15">
-					<div class="fs-12 info-text">20-FEB-2019 3:20 pm</div>
+					<!-- <div class="fs-12 info-text">20-FEB-2019 3:20 pm</div> -->
 					<div class="fs-22">{{ data.num_warehouse }}</div>
 					<div class="fs-14 o-050">{{ data.peso }} Lb.</div>
 					<div class="fs-14 o-050">{{ data.descripcion }}</div>
@@ -21,42 +21,34 @@
 					</span>
 					<br>
 					<timeline timeline-theme="lightblue" >
-						<timeline-title>
-							<div class="box grow flex column">
-								<div class="font-weight-900">
-										RECIBIDO EN BODEGA
+						<template v-for="item in status">
+							<timeline-title>
+								<div class="box grow flex column">
+									<div class="font-weight-900">
+										{{ item.estado }}
+									</div>
+									<div class="font-weight-500 secondary-text fs-15">
+										{{ item.fecha_status }}
+									</div>
 								</div>
-								<div class="font-weight-500 secondary-text fs-15">
-									30-ENE-2019 08:15 am
-								</div>
-							</div>
-						</timeline-title>
-						<timeline-item :hollow="true">
-							Acá va a ir una observación del estado.
-						</timeline-item>
-						<timeline-title>
-							<div class="box grow flex column">
-								<div class="font-weight-900">
-										CONSOLIDADO
-								</div>
-								<div class="font-weight-500 secondary-text fs-15">
-									01-FEB-2019 11:00 am
-								</div>
-							</div>
-						</timeline-title>
+							</timeline-title>
+							<timeline-item :hollow="true">
+								Acá va a ir una observación del estado.
+							</timeline-item>
+						</template>
 					</timeline>
 				</el-tab-pane>
 				<el-tab-pane class="mb-0">
 					<span slot="label" class="fl">
 						<i class="fal fa-search-location mr-3"></i>
 							Trackings
-							<el-badge class="accent-text m-a" :value="3" />
+							<el-badge class="accent-text m-a" :value="trackingInWH(data.tracking)" />
 					</span>
 					<el-collapse v-model="activeCollapse" accordion>
-					  <el-collapse-item name="1">
+					  <el-collapse-item  name="1">
 							<template slot="title">
 								<div class="font-weight-900">
-										1z8574005aP892s
+										dasdasdas
 								</div>
 					    </template>
 							<el-row :gutter="20">
@@ -70,7 +62,7 @@
 							    </el-col>
 							</el-row>
 					  </el-collapse-item>
-					  <el-collapse-item name="2">
+					  <!-- <el-collapse-item name="2">
 							<template slot="title">
 								<div class="font-weight-900">
 										2z8564005aP892r
@@ -86,7 +78,7 @@
 											<h3 class="m-0">Un par de medias usadas de regalo para Jhonny de parte de APLEXTM</h3>
 							    </el-col>
 							</el-row>
-					  </el-collapse-item>
+					  </el-collapse-item> -->
 					</el-collapse>
 				</el-tab-pane>
 		  </el-tabs>
@@ -96,6 +88,7 @@
 
 <script>
 import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
+import { getTrackings } from '@/api/tracking'
 
 export default {
 	name: 'TrackingDialog',
@@ -107,11 +100,32 @@ export default {
 	props: ['data', 'dialogvisible'],
 	data() {
 		return {
-			activeCollapse: '1'
+			activeCollapse: '1',
+			status: [],
+			trackings: []
+		}
+	},
+	watch:{
+		data(newVal, oldVal){
+			let me = this
+			me.getData(newVal.num_warehouse)
 		}
 	},
 	methods:{
-
+		getData(num_warehouse){
+			let me = this
+			getTrackings(num_warehouse).then(({data}) => {
+				this.status = data.data
+			}).catch( error => error)
+		},
+		trackingInWH(tracking){
+			if (tracking) {
+				var result = tracking.split(',')
+				this.trackings = result
+				return result.length
+			}
+			return 0
+		},
 	}
 }
 </script>

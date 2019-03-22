@@ -80,26 +80,26 @@ Vue.component('l-marker', Vue2Leaflet.LMarker)
 Vue.component('l-tile-layer', Vue2Leaflet.LTileLayer)
 const i18n = new VueI18n({ locale: 'us', messages:i18n_messages })
 
-import { getToken } from '@/utils/auth'
-import VueEcho from 'vue-echo-laravel';
-import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js');
-
-const EchoInstance = new Echo({
-    broadcaster: 'pusher',
-    key: '4plbox',
-    wsHost: window.location.hostname,
-		host: window.location.hostname,
-    wsPort: 6001,
-		authEndpoint: 'http://localhost:8000/api/broadcasting/auth',
-    disableStats: true,
-		auth:{
-      headers: {
-        Authorization: 'Bearer ' + getToken(),
-      }
-    }
-});
-Vue.use(VueEcho, EchoInstance);
+// import { getToken } from '@/utils/auth'
+// import VueEcho from 'vue-echo-laravel';
+// import Echo from 'laravel-echo'
+// window.Pusher = require('pusher-js');
+//
+// const EchoInstance = new Echo({
+//     broadcaster: 'pusher',
+//     key: '4plbox',
+//     wsHost: window.location.hostname,
+// 		host: window.location.hostname,
+//     wsPort: 6001,
+// 		authEndpoint: 'http://localhost:8000/api/broadcasting/auth',
+//     disableStats: true,
+// 		auth:{
+//       headers: {
+//         Authorization: 'Bearer ' + getToken(),
+//       }
+//     }
+// });
+// Vue.use(VueEcho, EchoInstance);
 
 import '@/assets/style/index.scss'
 

@@ -72,7 +72,7 @@ export default {
 		__uninit() {
 			if(this.ps)
 				this.ps.destroy(this.$el)
-	
+
 			this.ps = null
 			this._ps_inited = false
 		},
@@ -119,6 +119,7 @@ export default {
 
 <style lang="scss">
 @import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
 .ps-container {
 	position: relative;
 }
