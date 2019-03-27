@@ -1,10 +1,15 @@
 import request from '@/utils/request'
 
-export function getTrackings(data, idStatus, user_id) {
-  var url = 'http://localhost:8000/api/rastreo/getStatusReport/'+ data +'/' + idStatus + '/' + user_id
-  if (data != null) {
-    var url = 'http://localhost:8000/api/rastreo/getStatusReport/'+ data
-  }
+export function getAllWarehouse(user_id) {
+  var url = 'http://localhost:8000/api/getAllWarehouse/' + user_id
+  return request({
+    url,
+    method: 'get'
+  })
+}
+
+export function getWarehouse(warehouse, status_id) {
+  var url = 'http://localhost:8000/api/getWarehouse/' + warehouse + '/' + status_id
   return request({
     url,
     method: 'get'

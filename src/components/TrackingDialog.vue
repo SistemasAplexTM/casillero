@@ -5,9 +5,9 @@
 				<i class="fal fa-shipping-fast fa-2x m-a"></i>
 				<div class="box grow flex white-text column justify-center p-0 ml-15">
 					<!-- <div class="fs-12 info-text">20-FEB-2019 3:20 pm</div> -->
-					<div class="fs-22">{{ data.num_warehouse }}</div>
-					<div class="fs-14 o-050">{{ data.peso }} Lb.</div>
-					<div class="fs-14 o-050">{{ data.descripcion }}</div>
+					<div class="fs-22">{{ dataHead.num_warehouse }}</div>
+					<div class="fs-14 o-050">{{ dataHead.peso }} Lb.</div>
+					<div class="fs-14 o-050">{{ dataHead.descripcion }}</div>
 				</div>
 				<i class="fal fa-shipping-fast fa-5x o-010"></i>
 			</div>
@@ -33,7 +33,7 @@
 								</div>
 							</timeline-title>
 							<timeline-item :hollow="true">
-								Acá va a ir una observación del estado.
+								{{ item.descripcion_general }}
 							</timeline-item>
 						</template>
 					</timeline>
@@ -88,7 +88,6 @@
 
 <script>
 import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
-import { getTrackings } from '@/api/tracking'
 
 export default {
 	name: 'TrackingDialog',
@@ -97,7 +96,7 @@ export default {
 		TimelineItem,
 		TimelineTitle
 	},
-	props: ['data', 'dialogvisible'],
+	props: ['data', 'dialogvisible', 'dataHead'],
 	data() {
 		return {
 			activeCollapse: '1',
@@ -108,16 +107,10 @@ export default {
 	watch:{
 		data(newVal, oldVal){
 			let me = this
-			me.getData(newVal.num_warehouse)
+			me.status = newVal
 		}
 	},
 	methods:{
-		getData(num_warehouse){
-			let me = this
-			getTrackings(num_warehouse).then(({data}) => {
-				this.status = data.data
-			}).catch( error => error)
-		},
 		trackingInWH(tracking){
 			if (tracking) {
 				var result = tracking.split(',')

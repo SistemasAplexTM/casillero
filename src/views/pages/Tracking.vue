@@ -23,7 +23,7 @@
 							<i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i>
 						</div>
 						<div class="avatar align-vertical">
-							<i class="fal fa-shipping-fast fa-2x align-vertical-middle"></i>
+							<i :class="t.icon + ' fa-2x align-vertical-middle'"></i>
 							<!-- <img :src="'/static/images/users/user-'+c.id+'.jpg'" class="align-vertical-middle" alt="user avatar"> -->
 						</div>
 						<div class="info box grow flex">
@@ -42,14 +42,14 @@
 				</transition-group>
 			</div>
 		</div>
-		<tracking-dialog :dialogvisible.sync="dialogvisible" :data="userdata"></tracking-dialog>
+		<tracking-dialog :dialogvisible.sync="dialogvisible" :data="warehouse" :dataHead="dataHead"></tracking-dialog>
 	</div>
 </template>
 
 <script>
 import TrackingDialog from '@/components/TrackingDialog'
 import Contacts from '@/utils/TRACKINGS.json'
-import { getTrackings } from '@/api/tracking'
+import { getAllWarehouse, getWarehouse } from '@/api/tracking'
 
 export default {
 	name: 'Tracking',
@@ -61,8 +61,9 @@ export default {
 			search: '',
 			dialogvisible: false,
 			pageWidth: 0,
-			userdata: {},
-			trackings: []
+			warehouse: [],
+			trackings: [],
+			dataHead: {}
 		}
 	},
 	computed: {
@@ -87,12 +88,17 @@ export default {
 		},
 		getData(){
 			let me = this
-			getTrackings('WH00000191', null, 1892).then(({data}) => {
+			getAllWarehouse(1578).then(({data}) => {
 				this.trackings = data.data
 			}).catch( error => error)
 		},
 		openDialog(data) {
-			this.userdata = data
+			this.dataHead = data
+			getWarehouse(data.num_warehouse, null).then(({data}) => {
+				this.warehouse = data.data
+			}).catch( error => error)
+
+			// this.warehouse = data
 			this.dialogvisible = true
 		},
 		setPageWidth() {
