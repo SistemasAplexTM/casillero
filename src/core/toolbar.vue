@@ -8,7 +8,7 @@
 			<search class="hidden-xs-only"></search>
 		</div>
 		<div class="box-right flex align-center pl-10">
-			<el-dropdown trigger="click" @command="onCommandLang">
+			<!-- <el-dropdown trigger="click" @command="onCommandLang">
 				<span class="el-dropdown-link">
 					<i class="flag-icon" :class="{['flag-icon-'+lang]:true}"></i>
 				</span>
@@ -22,7 +22,7 @@
 					<el-dropdown-item command="jp"><i class="flag-icon flag-icon-jp mr-15"></i>Japanese</el-dropdown-item>
 					<el-dropdown-item command="/multi-language"><i class="mdi mdi-translate mr-15"></i>Read the docs</el-dropdown-item>
 				</el-dropdown-menu>
-			</el-dropdown>
+			</el-dropdown> -->
 			<button class="fullscreen-button" @click="toggleFullscreen">
 				<i class="mdi mdi-fullscreen" v-if="!fullscreen"></i>
 				<i class="mdi mdi-fullscreen-exit" v-if="fullscreen"></i>
@@ -40,7 +40,7 @@
 					<i class="fal fa-bell"></i>
 				</el-button>
 			</el-badge> -->
-			<span class="username"><router-link to="/profile">W1-1326</router-link></span>
+			<span class="username"><router-link to="/profile">{{ $store.getters.user.po_box }}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
 					<img src="../assets/images/profile.png" class="avatar" alt="avatar">
@@ -49,7 +49,7 @@
 					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Profile</el-dropdown-item>
 					<el-dropdown-item command="/calendar"><i class="mdi mdi-calendar mr-10"></i> Calendar</el-dropdown-item>
 					<el-dropdown-item command="/contacts"><i class="mdi mdi-account-multiple mr-10"></i> Contacts</el-dropdown-item>
-					<el-dropdown-item @click="this.$store.dispatch('logout')" divided><i class="mdi mdi-logout mr-10"></i> Logout</el-dropdown-item>
+					<el-dropdown-item command="logout" divided><i class="mdi mdi-logout mr-10"></i> Logout</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
 
@@ -82,6 +82,10 @@ export default {
 				this.lang = lang
 		},
 		onCommand(path) {
+			if (path == 'logout') {
+				this.$store.dispatch('logout')
+				return
+			}
 			this.$router.push(path)
 		},
 		toggleSidebar() {

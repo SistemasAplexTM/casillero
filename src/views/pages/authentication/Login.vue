@@ -50,7 +50,7 @@
 
 <script>
 import { login } from '@/api/login'
-import { setToken} from '@/utils/auth'
+import { setToken, setUser } from '@/utils/auth'
 export default {
 	name: 'Login',
 	data() {
@@ -67,6 +67,7 @@ export default {
 				 this.$store.commit('setLogin')
 	       this.$router.push({ path: '/' })
 				 setToken(data.access_token)
+				 setUser(data.user)
 				 // this.$router.push('profile')
 	     }).catch(error => {
 				 this.error = true

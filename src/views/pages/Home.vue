@@ -3,17 +3,17 @@
 		<el-row :gutter="12">
 		    <el-col :span="24" class="text-center lh-1 mb-5">
 	        <h3 class="m-0 font-weight-300">Mi Casillero</h3>
-					<h2 class="m-0 font-weight-900 accent-text">RAMÓN OCAMPO TENORIO</h2>
+					<h2 class="m-0 font-weight-900 accent-text">{{ user.nombre_full }}</h2>
 					<h3 class="m-0">
-						7546 NW 70 Ave
+						{{ user.direccion }}
 					</h3>
 					<p class="m-0 font-weight-400" >Miami, FL, 33166</p>
-					<h2 class="m-5 font-weight-900 accent-text">W1-1326</h2>
+					<h2 class="m-5 font-weight-900 accent-text">{{ user.po_box }}</h2>
 		    </el-col>
 		</el-row>
 		<el-row class="mt-0" :gutter="15">
 			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking')">
+        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/transito/Tránsito')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
               <div class="mr-0 animated fadeInRight" style="margin-right: -5px">
@@ -28,14 +28,14 @@
                 </div>
               </div>
               <div class="box">
-                <h1 class="h-big m-0 ml-10 font-weight-900">5</h1>
+                <h1 class="h-big m-0 ml-10 font-weight-900">{{ getCant(1) }}</h1>
               </div>
             </div>
           </div>
         </div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading">
+        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/2/Casillero')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
               <div class="mr-10 animated fadeInRight">
@@ -50,14 +50,36 @@
                 </div>
               </div>
               <div class="box">
-                <h1 class="h-big m-0 ml-10 font-weight-900">1</h1>
+                <h1 class="h-big m-0 ml-10 font-weight-900">{{ getCant(2) }}</h1>
               </div>
             </div>
           </div>
         </div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading">
+        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/7/Recibido')">
+          <div class="ph-10 p-3">
+            <div class="flex justify-center align-center">
+              <div class="mr-10 animated fadeInRight">
+                <i class="fal fa-hand-receiving accent-text fa-5x icon-card r100"></i>
+              </div>
+              <div class="box grow animated fadeInLeft lh-1">
+                <h1 class="m-0 text-truncate">
+                  Recibido
+                </h1>
+                <div class="o-050 pt-0 pb-0 font-size-12">
+                  Encuentre aquí los <strong>trackings</strong> que hemos <strong>entregado</strong>.
+                </div>
+              </div>
+              <div class="box">
+                <h1 class="h-big m-0 ml-10 font-weight-900">{{ getCant(7) }}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+        <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading"  @click="select('prealert')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
               <div class="mr-0 animated fadeInRight">
@@ -105,21 +127,52 @@
 </template>
 
 <script>
+import { getUser } from '@/utils/auth'
+import { getAllWarehouse } from '@/api/tracking'
+
 export default {
 	name: 'Home',
 	data () {
 		return {
-      loading: false
+      loading: false,
+			cant: [],
+			user: {}
 		}
 	},
 	created(){
+		this.user = this.$store.getters.user
     setTimeout(function () {
       this.loading = false
     }, 1000);
 	},
+	mounted() {
+		this.getData()
+	},
 	methods: {
 		select(route){
-			this.$router.push(route);
+			this.$router.push({path: route});
+		},
+		getData(){
+			let me = this
+			me.loading = true
+			getAllWarehouse(me.user.id, 'count').then(({data}) => {
+				me.loading = false
+				me.cant = data.data
+			}).catch( error => error)
+		},
+		getCant(id){
+			let me = this
+			var result = 0
+			if (id != 7 && id != 2) {
+				me.cant.forEach(function(element) {
+					if (element.status_id != 7 && element.status_id != 2) {
+						result = element.cant + result
+					}
+				});
+			}else{
+				result = me.cant.filter(item => item.status_id == id)
+			}
+			return (result[0]) ? result[0].cant : 0
 		}
 	}
 }

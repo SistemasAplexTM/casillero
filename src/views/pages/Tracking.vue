@@ -1,5 +1,12 @@
 <template>
 	<div class="page-contacts flex column" id="page-contacts">
+		<div class="page-header">
+			<h1 class="mb-2">{{ title }}</h1>
+			<el-breadcrumb separator="/">
+				<el-breadcrumb-item :to="{ path: '/' }"><i class="mdi mdi-home-outline"></i></el-breadcrumb-item>
+				<el-breadcrumb-item>Trackings</el-breadcrumb-item>
+			</el-breadcrumb>
+		</div>
 		<resize-observer @notify="__resizeHanlder" />
 		<div class="search-wrap flex align-center">
 			<el-input v-model="search" placeholder="Buscar">
@@ -10,15 +17,7 @@
 		<div class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass">
 			<div class="contacts-list box grow scrollable only-y">
 				<transition-group name="fade">
-					<div v-if="trackingsFiltered.length < 0" key="empty">
-						<el-row :gutter="20" class="pt-50 o-050">
-							<el-col :span="24" class="text-center">
-								<h1>No tiene trackings disponibles</h1>
-								<i class="fal fa-box-open fa-7x m-a"></i>
-							</el-col>
-						</el-row>
-					</div>
-					<div key="full" v-else v-for="t in trackingsFiltered" :key="t.id" class="flex contact border-bottom" @click="openDialog(t)">
+					<div v-if="trackingsFiltered.length > 0" key="full" v-for="t in trackingsFiltered" :key="t.id" class="flex contact border-bottom" @click="openDialog(t)">
 						<div class="star align-vertical p-10 fs-15">
 							<i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i>
 						</div>
@@ -38,7 +37,18 @@
 							<!-- <div class="phone align-vertical p-10"><span class="align-vertical-middle">{{c.date}}</span></div> -->
 						</div>
 					</div>
-
+					<div v-if="trackingsFiltered.length <= 0" key="empty">
+						<el-row :gutter="20" class="pt-50 o-050">
+							<el-col v-if="loading" :span="24" class="text-center">
+								<h1>Cargando trackings...</h1>
+								<i class="fal fa-spinner fa-spin fa-7x m-a"></i>
+							</el-col>
+							<el-col v-else :span="24" class="text-center">
+								<h1>No tiene trackings disponibles</h1>
+								<i class="fal fa-box-open fa-7x m-a"></i>
+							</el-col>
+						</el-row>
+					</div>
 				</transition-group>
 			</div>
 		</div>
@@ -48,8 +58,8 @@
 
 <script>
 import TrackingDialog from '@/components/TrackingDialog'
-import Contacts from '@/utils/TRACKINGS.json'
 import { getAllWarehouse, getWarehouse } from '@/api/tracking'
+import { getUser } from '@/utils/auth'
 
 export default {
 	name: 'Tracking',
@@ -58,6 +68,7 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			search: '',
 			dialogvisible: false,
 			pageWidth: 0,
@@ -72,6 +83,16 @@ export default {
 		},
 		trackingClass() {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
+		},
+		title(){
+			return this.$route.params.type
+		}
+	},
+	watch:{
+		title(newVal, oldVal){
+			if (newVal != oldVal) {
+				this.getData()
+			}
 		}
 	},
 	mounted() {
@@ -88,14 +109,17 @@ export default {
 		},
 		getData(){
 			let me = this
-			getAllWarehouse(1578).then(({data}) => {
+			me.loading = true
+			var user = getUser()
+			getAllWarehouse(user.id, me.$route.params.status).then(({data}) => {
 				this.trackings = data.data
+				me.loading = false
 			}).catch( error => error)
 		},
 		openDialog(data) {
 			this.dataHead = data
 			getWarehouse(data.num_warehouse, null).then(({data}) => {
-				this.warehouse = data.data
+				this.warehouse = data
 			}).catch( error => error)
 
 			// this.warehouse = data
@@ -113,7 +137,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
-
+.page-header{
+  margin-bottom: 0px !important
+}
 .page-contacts {
 	height: 100%;
 	margin: 0 !important;

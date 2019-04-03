@@ -2,14 +2,14 @@
 	<el-dialog :show-close="true" :custom-class="'tracking-dialog'" id="tracking-dialog" :visible="dialogvisible" @close="$emit('update:dialogvisible', false)">
 		<div slot="title" class="bg-primary white-text p-15 flex">
 			<div class="info box grow flex">
-				<i class="fal fa-shipping-fast fa-2x m-a"></i>
+				<i class="fal fa-box-open fa-2x m-a"></i>
 				<div class="box grow flex white-text column justify-center p-0 ml-15">
 					<!-- <div class="fs-12 info-text">20-FEB-2019 3:20 pm</div> -->
 					<div class="fs-22">{{ dataHead.num_warehouse }}</div>
 					<div class="fs-14 o-050">{{ dataHead.peso }} Lb.</div>
 					<div class="fs-14 o-050">{{ dataHead.descripcion }}</div>
 				</div>
-				<i class="fal fa-shipping-fast fa-5x o-010"></i>
+				<i class="fal fa-box-open fa-5x o-010"></i>
 			</div>
 		</div>
 		<div class="pt-10 p-20">
@@ -42,43 +42,27 @@
 					<span slot="label" class="fl">
 						<i class="fal fa-search-location mr-3"></i>
 							Trackings
-							<el-badge class="accent-text m-a" :value="trackingInWH(data.tracking)" />
+							<el-badge class="accent-text m-a" :value="trackingInWH(data.trackings)" />
 					</span>
 					<el-collapse v-model="activeCollapse" accordion>
-					  <el-collapse-item  name="1">
+					  <el-collapse-item v-for="tracking in trackings"  :name="tracking.id">
 							<template slot="title">
 								<div class="font-weight-900">
-										dasdasdas
+									<i class="fal fa-truck icon-menu"></i>
+										{{ tracking.codigo }}
 								</div>
 					    </template>
 							<el-row :gutter="20">
 							    <el-col :span="10" class="br">
 							        LLEGADA A LA BODEGA:
-											<h3 class="m-0">14-FEB-2019 8:30 am</h3>
+											<h3 class="m-0">{{ tracking.created_at }}</h3>
 							    </el-col>
 							    <el-col :span="14">
 							        CONTENIDO:
-											<h3 class="m-0">Computador ALIENWARE de regalo para DUMA de parte de APLEXTM</h3>
+											<h3 class="m-0">{{ tracking.contenido }}</h3>
 							    </el-col>
 							</el-row>
 					  </el-collapse-item>
-					  <!-- <el-collapse-item name="2">
-							<template slot="title">
-								<div class="font-weight-900">
-										2z8564005aP892r
-								</div>
-					    </template>
-							<el-row :gutter="20">
-							    <el-col :span="10" class="br">
-							        LLEGADA A LA BODEGA:
-											<h3 class="m-0">16-FEB-2019 04:30 pm</h3>
-							    </el-col>
-							    <el-col :span="14">
-							        CONTENIDO:
-											<h3 class="m-0">Un par de medias usadas de regalo para Jhonny de parte de APLEXTM</h3>
-							    </el-col>
-							</el-row>
-					  </el-collapse-item> -->
 					</el-collapse>
 				</el-tab-pane>
 		  </el-tabs>
@@ -107,16 +91,18 @@ export default {
 	watch:{
 		data(newVal, oldVal){
 			let me = this
-			me.status = newVal
+			me.status = newVal.data
+			me.trackings = newVal.trackings
 		}
 	},
 	methods:{
 		trackingInWH(tracking){
 			if (tracking) {
-				var result = tracking.split(',')
-				this.trackings = result
-				return result.length
+				// var result = tracking.split(',')
+				// this.trackings = result
+				return tracking.length
 			}
+			// console.log(tracking.length);
 			return 0
 		},
 	}

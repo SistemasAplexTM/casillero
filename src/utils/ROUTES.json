@@ -12,27 +12,27 @@
     }
   },
   {
-    "path": "/sent",
-    "name": "Enviado",
-    "component": "Sent",
+    "path": "/prealert",
+    "name": "Prealerta",
+    "component": "Prealert",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "bells"
+    }
+  },
+  {
+    "path": "/received",
+    "name": "Recibido",
+    "redirect": "tracking/7/Recibido",
     "meta": {
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
       "icon": "share-square"
-    }
-  },
-  {
-    "path": "/inventory",
-    "name": "Inventario",
-    "component": "Inventory",
-    "meta": {
-      "auth": true,
-      "layout": "navLeft",
-      "searchable": true,
-      "tags": ["Página"],
-      "icon": "inventory"
     }
   },
   {
@@ -48,10 +48,11 @@
     }
   },
   {
-    "path": "/tracking",
+    "path": "/tracking/:status/:type",
     "name": "Rastreo",
     "component": "Tracking",
     "meta": {
+      "nav": false,
       "auth": true,
       "layout": "navLeft",
       "searchable": true,

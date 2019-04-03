@@ -26,11 +26,11 @@
 </template>
 
 <script>
-    import Document from './Document.vue'
+    import Invoice from './Invoice.vue'
     // import FormatNumber from './FormatNumber.vue'
     export default {
       components: {
-        Document,
+        Invoice,
         // FormatNumber,
         Localization: {
           template: "<p>About</p>"
@@ -41,9 +41,9 @@
       },
       data(){
         return{
-          currentView: 'Document',
+          currentView: 'Invoice',
           list: [
-            {component: 'Document', desc: 'Documento', icon: 'file'},
+            {component: 'Invoice', desc: 'Invoice', icon: 'file'},
             // {component: 'FormatNumber', desc: 'Formatos de número', icon: 'funnel-dollar'},
             {component: 'Localization', desc: 'Localización', icon: 'map-marker'}
           ]
