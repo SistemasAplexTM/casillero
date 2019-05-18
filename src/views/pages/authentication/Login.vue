@@ -24,21 +24,21 @@
 					show-icon>
 				</el-alert>
 				<div class="flex text-center center pt-30 pb-10">
-					<el-button plain size="small" @click="Login" class="login-btn tada animated">
+					<el-button plain size="small" @click="Login" class="login-btn tada animated" :loading="loading">
 						LOGIN
 					</el-button>
 				</div>
 
-				<div class="text-divider mv-10">or</div>
+				<!-- <div class="text-divider mv-10">or</div> -->
 
-				<div class="flex column center pt-10 pb-10">
+				<!-- <div class="flex column center pt-10 pb-10">
 					<el-button plain size="small" @click="Login" class="social-btn google">
 						Log in with Google
 					</el-button>
 					<el-button plain size="small" @click="Login" class="social-btn facebook">
 						Log in with Facebook
 					</el-button>
-				</div>
+				</div> -->
 
 				<div class="text-center signin-box pt-20">
 					Don't have an account? <a>Sign in</a>
@@ -50,7 +50,7 @@
 
 <script>
 import { login } from '@/api/login'
-import { setToken, setUser } from '@/utils/auth'
+import { setToken, setUser, setAgency } from '@/utils/auth'
 export default {
 	name: 'Login',
 	data() {
@@ -58,22 +58,26 @@ export default {
 			email: '',
 			password: '',
 			error: false,
-			errorMsg: ''
+			errorMsg: '',
+			loading: false
 		}
 	},
 	methods: {
 		Login() {
+			this.loading = true
 			login(this.email, this.password, false).then(({data}) => {
 				 this.$store.commit('setLogin')
-	       this.$router.push({ path: '/' })
+	    this.$router.push({ path: '/' })
 				 setToken(data.access_token)
 				 setUser(data.user)
-				 // this.$router.push('profile')
-	     }).catch(error => {
+				 setAgency(data.agencia)
+					this.loading = false
+   }).catch(error => {
 				 this.error = true
+					this.loading = false
 				 this.errorMsg = error.errors
-	       console.log(error);
-	     })
+      console.log(error);
+   })
 		}
 	}
 }

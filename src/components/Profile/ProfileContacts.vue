@@ -1,51 +1,39 @@
 <template>
-  <div class="page-contacts flex column" id="page-contacts">
-    <div class="page-header">
-			<h1 class="mb-2">Prealertas</h1>
-			<el-breadcrumb separator="/">
-				<el-breadcrumb-item :to="{ path: '/' }"><i class="mdi mdi-home-outline"></i></el-breadcrumb-item>
-				<el-breadcrumb-item>Prealertas</el-breadcrumb-item>
-			</el-breadcrumb>
-		</div>
+	<div class="page-contacts flex column" id="page-contacts">
 		<resize-observer @notify="__resizeHanlder" />
 		<div class="search-wrap flex align-center">
 			<el-input v-model="search" placeholder="Buscar">
 				<i slot="prefix" class="el-input__icon el-icon-search"></i>
-				<p class="m-10" slot="suffix">{{prealertsFiltered.length}} prealertas</p>
+				<!-- <p class="m-10" slot="suffix">{{contactsFiltered.length}} contactos</p> -->
         <template slot="append">
           <el-button type="success" icon="el-icon-plus" circle @click="dialogvisible=true"></el-button>
         </template>
 			</el-input>
 		</div>
-		<div class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass">
+		<div class="c" :class="trackingClass">
 			<div class="contacts-list box grow scrollable only-y">
 				<transition-group name="fade">
-					<div v-if="prealertsFiltered.length > 0" key="full" v-for="t in prealertsFiltered" :key="t.id" class="flex contact border-bottom">
-						<div class="star align-vertical p-10 fs-15">
-              <el-badge class="align-vertical-middle" :value="t.despachar == 0 ? 'Esperar' : 'Despachar'" />
-							<!-- <i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i> -->
-						</div>
-						<div class="avatar align-vertical">
-							<i class="fal fa-truck fa-2x align-vertical-middle"></i>
-							<!-- <img :src="'/static/images/users/user-'+c.id+'.jpg'" class="align-vertical-middle" alt="user avatar"> -->
+					<div v-if="contactsFiltered.length > 0" key="full" v-for="t in contactsFiltered" :key="t.id" v-show="t.nombre" class="flex contact border-bottom">
+						<div class="avatar align-vertical ml-10">
+							<i class="fal fa-user fa-2x align-vertical-middle"></i>
 						</div>
 						<div class="info box grow flex">
 							<div class="name box grow flex column justify-center p-0">
-								<div class="fullname fs-22">{{ t.tracking }}</div>
-								<div class="fs-14 secondary-text">{{ t.instruccion }}</div>
-								<div class="fs-14 secondary-text">{{ t.created_at }}</div>
+								<div class="fullname fs-22">{{ t.nombre }}</div>
+								<div class="fs-14 secondary-text">{{ t.telefono }}</div>
+								<div class="fs-14 secondary-text">{{ t.ciudad }}</div>
 							</div>
 							<!-- <div class="phone align-vertical p-10"><span class="align-vertical-middle">{{c.date}}</span></div> -->
 						</div>
 					</div>
-					<div v-if="prealertsFiltered.length <= 0" key="empty">
+					<div v-if="contactsFiltered.length <= 0" key="empty">
 						<el-row :gutter="20" class="pt-50 o-050">
 							<el-col v-if="loading" :span="24" class="text-center">
-								<h1>Cargando prealertas...</h1>
+								<h1>Cargando contactos...</h1>
 								<i class="fal fa-spinner fa-spin fa-7x m-a"></i>
 							</el-col>
 							<el-col v-else :span="24" class="text-center">
-								<h1>No se han realizado prealertas</h1>
+								<h1>No tiene contactos</h1>
 								<i class="fal fa-box-open fa-7x m-a"></i>
 							</el-col>
 						</el-row>
@@ -53,57 +41,49 @@
 				</transition-group>
 			</div>
 		</div>
-		<prealert-dialog :dialogvisible.sync="dialogvisible" @submitPrealert="refresh"></prealert-dialog>
+		<contact-dialog :dialogvisible.sync="dialogvisible" @submitPrealert="refresh"></contact-dialog>
 	</div>
 </template>
 
 <script>
-import PrealertDialog from '@/components/PrealertDialog'
+import ContactDialog from '@/components/ContactDialog'
 import { getAllPrealert } from '@/api/prealert'
 import { getUser } from '@/utils/auth'
+import { getContacts } from '@/api/user'
 
   export default {
     components: {
-  		PrealertDialog
+  		ContactDialog
   	},
     data() {
-     return {
-       loading: false,
-       prealerts: [],
-       pageWidth: 0,
-       search: '',
-       dialogvisible: false,
-     }
-   },
-   computed: {
-  		prealertsFiltered() {
-  			return this.prealerts.filter(({tracking,}) => (tracking).toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
+      return {
+        loading: false,
+        contacts: [],
+        pageWidth: 0,
+        search: '',
+        dialogvisible: false,
+      }
+    },
+    computed: {
+  		contactsFiltered() {
+  			return this.contacts.filter(({nombre}) => (nombre != null).toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
   		},
   		trackingClass() {
   			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
-  		},
-    create(){
-     if (this.$route.params.create == 1) {
-      this.dialogvisible = true
-     }
-  			return this.$route.params.create
   		}
   	},
-   mounted() {
-    console.log(this.$route.params.create);
-    if (this.$route.params.create == 1) {
-     this.dialogvisible = true
-    }
+    mounted() {
   		this.setPageWidth()
   		this.getData()
   	},
     methods: {
       getData(){
         let me = this
-  			   me.loading = true
+  			me.loading = true
         var user = getUser()
-        getAllPrealert(user.agencia_id, user.id).then(({data}) => {
-          this.prealerts = data.data
+        getContacts(user.id).then(({data}) => {
+					data = JSON.parse(data.data.contactos_json)
+          this.contacts = data.campos
         	me.loading = false
         }).catch(error => { console.log(error) })
       },
@@ -128,8 +108,8 @@ import { getUser } from '@/utils/auth'
 .page-contacts {
 	height: 100%;
 	margin: 0 !important;
-	padding: 20px;
-	padding-bottom: 10px;
+	padding-top: 30px;
+	padding-bottom: 50px;
 	box-sizing: border-box;
 
 	.search-card {

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(username, password, remember) {
   return request({
-    url: 'http://localhost:8000/api/auth/login',
+    url: '/auth/login',
     method: 'post',
     data: {
       email: username,
@@ -14,7 +14,7 @@ export function login(username, password, remember) {
 
 export function user() {
   return request({
-    url: 'http://localhost:8000/api/user',
+    url: '/user',
     method: 'get'
   })
 }

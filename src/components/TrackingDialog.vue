@@ -1,6 +1,6 @@
 <template>
 	<el-dialog :show-close="true" :custom-class="'tracking-dialog'" id="tracking-dialog" :visible="dialogvisible" @close="$emit('update:dialogvisible', false)">
-		<div slot="title" class="bg-primary white-text p-15 flex">
+		<div slot="title" class="bg-accent white-text p-15 flex">
 			<div class="info box grow flex">
 				<i class="fal fa-box-open fa-2x m-a"></i>
 				<div class="box grow flex white-text column justify-center p-0 ml-15">

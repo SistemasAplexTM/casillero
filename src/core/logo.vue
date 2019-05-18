@@ -1,7 +1,8 @@
 <template>
 	<div class="box-logo flex align-center" :class="{'nav-collapsed':collapseNav, [mode]:true}">
 		<!--<div class="letter-logo">P</div>-->
-		<img class="image-logo" src="@/assets/images/logo.png" alt="logo"/>
+		<!-- <img class="image-logo" src="@/assets/images/logo.png" alt="logo"/> -->
+		<img class="image-logo" :src="img" alt="logo"/>
 		<div class="app-name" @click="goto('/')"></div>
 		<button class="collapse-nav" @click="collapseNavToggle">
 			<i class="fal fa-bars"></i>
@@ -9,15 +10,25 @@
 	</div>
 </template>
 
-
 <script>
+import { getAgency } from '@/utils/auth'
+
 export default {
 	name: 'Logo',
 	props: ['collapseNav', 'mode'],
 	data() {
-		return {}
+		return {
+			img:''
+		}
+	},
+	mounted(){
+		this.getImg()
 	},
 	methods: {
+		getImg(){
+			var agency = getAgency()
+			this.img = process.env.VUE_APP_ROOT_IMG + '/' + agency.logo
+		},
 		collapseNavToggle() {
 			this.$emit('collapse-nav-toggle')
 		},

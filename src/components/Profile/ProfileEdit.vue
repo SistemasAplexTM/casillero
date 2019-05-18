@@ -1,140 +1,84 @@
 <template>
-	<div class="page-profile-edit">
-		<div class="label-switch-box">
-			<span>label: </span>
-			<el-radio-group v-model="labelPosition" size="small">
-				<el-radio-button label="left">Left</el-radio-button>
-				<el-radio-button label="right">Right</el-radio-button>
-				<el-radio-button label="top">Top</el-radio-button>
-			</el-radio-group>
-		</div>
-
+	<div class="page-profile-edit pt-20">
 		<el-form ref="form" :model="form" label-width="120px" :label-position="labelPosition">
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Username">
-						<el-input v-model="form.username"/>
+					<el-form-item label="Documento">
+						<el-input v-model="form.documento"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Email">
-						<el-input v-model="form.email" type="email"/>
-					</el-form-item>
-				</el-col>
-			</el-col>
-			<el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="First name">
-						<el-input v-model="form.firstName"/>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Last name">
-						<el-input v-model="form.lastName"/>
+					<el-form-item label="Correo">
+						<el-input v-model="form.correo" type="email"/>
 					</el-form-item>
 				</el-col>
 			</el-col>
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Birthday">
-						<el-date-picker type="date" placeholder="Pick a date" v-model="form.birthday" style="width: 100%;"></el-date-picker>
+					<el-form-item label="Primer nombre">
+						<el-input v-model="form.primer_nombre"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Gender">
-						<el-radio-group v-model="form.gender">
-							<el-radio label="Male" border></el-radio>
-							<el-radio label="Female" border></el-radio>
-						</el-radio-group>
+					<el-form-item label="Segundo nombre">
+						<el-input v-model="form.segundo_nombre"/>
+					</el-form-item>
+				</el-col>
+			</el-col>
+			</el-col>
+			<el-col>
+				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
+					<el-form-item label="Primer apellido">
+						<el-input v-model="form.primer_apellido"/>
+					</el-form-item>
+				</el-col>
+				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
+					<el-form-item label="Segundo apellido">
+						<el-input v-model="form.segundo_apellido"/>
 					</el-form-item>
 				</el-col>
 			</el-col>
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Phone">
-						<el-input v-model="form.phone" placeholder="+xx xxx xxx xxxx"/>
+					<el-form-item label="Teléfono">
+						<el-input v-model="form.telefono" placeholder=""/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Website">
-						<el-input v-model="form.website" placeholder="https://"/>
-					</el-form-item>
-				</el-col>
-			</el-col>
-			<el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Address">
-						<el-input v-model="form.address"/>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Postal code">
-						<el-input v-model="form.postalCode"/>
+					<el-form-item label="Celular">
+						<el-input v-model="form.celular" placeholder=""/>
 					</el-form-item>
 				</el-col>
 			</el-col>
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="City">
-						<el-input v-model="form.city"/>
+					<el-form-item label="Dirección">
+						<el-input v-model="form.direccion"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
+					<el-form-item label="Código postal">
+						<el-input v-model="form.zip"/>
+					</el-form-item>
+				</el-col>
+			</el-col>
+			<el-col>
+				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
+					<el-form-item label="Ciudad">
+						<city-component @get="localizacion_id = $event.id" :selected="form.localizacion_id"/>
+						<!-- <el-input v-model="form.localizacion_id"/> -->
+					</el-form-item>
+				</el-col>
+				<!-- <el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Country">
 						<el-input v-model="form.country"/>
 					</el-form-item>
-				</el-col>
-			</el-col>
-			<el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Hobbies">
-						<el-select
-							class="select-wide"
-							v-model="form.hobbies"
-							multiple
-							filterable
-							allow-create
-							default-first-option
-							placeholder="Choose tags for your hobbies">
-							<el-option
-							v-for="item in hobbies"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value">
-							</el-option>
-						</el-select>
-					</el-form-item>
-				</el-col>
-				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
-					<el-form-item label="Skills">
-						<el-select
-							class="select-wide"
-							v-model="form.skills"
-							multiple
-							filterable
-							allow-create
-							default-first-option
-							placeholder="Choose tags for your skills">
-							<el-option
-							v-for="item in skills"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value">
-							</el-option>
-						</el-select>
-					</el-form-item>
-				</el-col>
-			</el-col>
-
-			<el-col class="col-p">
-				<el-form-item label="About me">
-					<el-input type="textarea" v-model="form.aboutMe" autosize></el-input>
-				</el-form-item>
+				</el-col> -->
 			</el-col>
 			<el-col class="col-p">
 				<el-form-item>
-					<el-button type="primary" @click="onSubmit">Save</el-button>
-					<el-button>Cancel</el-button>
+					<el-button type="primary" @click="onSubmit">Actualizar</el-button>
+					<el-button>Cancelar</el-button>
 				</el-form-item>
 			</el-col>
 		</el-form>
@@ -142,58 +86,44 @@
 </template>
 
 <script>
+import { update, find } from '@/api/user'
+import CityComponent from '@/components/CityComponent'
 
 export default {
 	name: 'ProfileEdit',
+	components: { CityComponent },
 	data() {
 		return {
 			form: {
-				username: 'aShenton',
-				email: 'ashenton@mail.com',
-				firstName: 'Aurora',
-				lastName: 'Shenton',
-				birthday: '1991-02-13T23:00:00.000Z',
-				phone: '',
-				website: '',
-				hobbies: [],
-				skills: ['JavaScript', 'HTML', 'CSS', 'Vue.js'],
-				gender: 'Female',
-				address: '',
-				city: '',
-				country: '',
-				postalCode: '',
-				aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dapibus posuere libero, nec convallis arcu ullamcorper a. Vestibulum diam neque, egestas scelerisque arcu a, fermentum ornare mauris. Ut venenatis vulputate maximus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur scelerisque quis turpis ac tempus. Quisque dolor dolor, fermentum nec magna eget, fringilla auctor lacus. Aenean sagittis est ac ligula pharetra, quis imperdiet ante dignissim. Ut vehicula nec nisl a pretium. Quisque faucibus auctor viverra. Sed ultricies convallis magna. In blandit eros id efficitur vulputate. Duis efficitur sollicitudin dui non vehicula. Nullam ut eros fermentum, dapibus metus non, accumsan neque. Mauris sed pellentesque felis. Suspendisse viverra risus sit amet congue consectetur.'
+				id: null,
+				documento: '',
+				primer_nombre: '',
+				segundo_nombre: '',
+				primer_apellido: '',
+				segundo_apellido: '',
+				direccion: '',
+				telefono: '',
+				correo: '',
+				zip: '',
+				celular: '',
+				localizacion_id: ''
 			},
-			hobbies: [
-				{
-					value: 'Model building',
-					label: 'Model building'
-				}, {
-					value: 'Drawing',
-					label: 'Drawing'
-				}, {
-					value: 'Snowboarding',
-					label: 'Snowboarding'
-				}
-			],
-			skills: [
-				{
-					value: 'HTML',
-					label: 'HTML'
-				}, {
-					value: 'CSS',
-					label: 'CSS'
-				}, {
-					value: 'JavaScript',
-					label: 'JavaScript'
-				}
-			],
-			labelPosition: 'left'
+			labelPosition: 'top'
 		}
 	},
 	methods: {
 		onSubmit() {
 			console.log('submit!');
+			update(this.form).then(({data}) => {
+				if (data.code == 200) {
+					this.$message.success('Actualizado con éxito.')
+				}
+			}).catch(error => { console.log(error) })
+		},
+		setData(){
+			find(this.$store.getters.user.id).then(({data}) => {
+				this.form = data.data
+			}).catch(error => error)
 		},
 		resizeLabelPosition() {
 			if(window.innerWidth <= 768) {
@@ -203,6 +133,7 @@ export default {
 	},
 	mounted() {
 		this.resizeLabelPosition();
+		this.setData();
 		window.addEventListener('resize', this.resizeLabelPosition);
 	},
 	beforeDestroy() {

@@ -19,8 +19,8 @@
 				<el-tab-pane label="Información" name="info">
 					<profile-edit></profile-edit>
 				</el-tab-pane>
-				<el-tab-pane label="Timeline" name="timeline">
-					<profile-timeline></profile-timeline>
+				<el-tab-pane label="Contactos" name="timeline">
+					<profile-contacts></profile-contacts>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -31,7 +31,7 @@
 import ColorThief from 'color-thief-browser'
 import Affix from '@/components/Affix'
 import ProfileEdit from '@/components/Profile/ProfileEdit'
-import ProfileTimeline from '@/components/Profile/ProfileTimeline'
+import ProfileContacts from '@/components/Profile/ProfileContacts'
 import { user } from '@/api/login'
 
 export default {
@@ -48,7 +48,7 @@ export default {
 	methods: {
 		getUser(){
 			user().then(({data}) => {
-				console.log(data);
+				// console.log(data);
 			}).catch(error => error)
 		},
 		resizeAffixEnabled() {
@@ -78,7 +78,7 @@ export default {
 	components: {
 		Affix,
 		ProfileEdit,
-		ProfileTimeline
+		ProfileContacts
 	}
 }
 </script>
@@ -141,7 +141,7 @@ export default {
 				border: 4px solid white;
 				opacity: 0;
 				top: 0px;
-				background-image: url('../../assets/images/cover-2.jpg');
+				background-image: url('../../assets/images/Foto-2.jpg');
 				background-position: 50%;
 				background-size: cover;
 				background-repeat: no-repeat;

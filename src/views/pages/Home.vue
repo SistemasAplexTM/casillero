@@ -12,7 +12,7 @@
 		    </el-col>
 		</el-row>
 		<el-row class="mt-0" :gutter="15">
-			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+			<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/transito/Tránsito')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
@@ -34,7 +34,7 @@
           </div>
         </div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+			<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/2/Casillero')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
@@ -56,7 +56,7 @@
           </div>
         </div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+			<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading" @click="select('tracking/7/Recibido')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
@@ -78,7 +78,7 @@
           </div>
         </div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+			<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="card-base card-shadow--small mb-10 pointer" v-loading="loading"  @click="select('prealert')">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
@@ -100,7 +100,7 @@
           </div>
         </div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+			<!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="card-base card-shadow--small mb-20 pointer" v-loading="loading">
           <div class="ph-10 p-3">
             <div class="flex justify-center align-center">
@@ -121,7 +121,7 @@
             </div>
           </div>
         </div>
-			</el-col>
+			</el-col> -->
 		</el-row>
 	</vue-scroll>
 </template>
@@ -162,17 +162,18 @@ export default {
 		},
 		getCant(id){
 			let me = this
-			var result = 0
+			var result = []
 			if (id != 7 && id != 2) {
 				me.cant.forEach(function(element) {
 					if (element.status_id != 7 && element.status_id != 2) {
-						result = element.cant + result
+						result.cant = element.cant + result
 					}
 				});
 			}else{
 				result = me.cant.filter(item => item.status_id == id)
+				result = result[0]
 			}
-			return (result[0]) ? result[0].cant : 0
+			return (result) ? result.cant : 0
 		}
 	}
 }

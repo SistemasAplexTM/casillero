@@ -90,6 +90,7 @@ export default {
 	},
 	watch:{
 		title(newVal, oldVal){
+			console.log(newVal, oldVal);
 			if (newVal != oldVal) {
 				this.getData()
 			}

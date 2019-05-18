@@ -1,5 +1,6 @@
 const Token = 'token'
 const User = 'user'
+const Agency = 'agency'
 
 export function getToken() {
   return sessionStorage.getItem(Token)
@@ -24,4 +25,17 @@ export function setUser(user) {
 
 export function removeUser() {
   return sessionStorage.removeItem(User)
+}
+
+export function getAgency() {
+  var data = sessionStorage.getItem(Agency)
+  return JSON.parse(data)
+}
+
+export function setAgency(agency) {
+  sessionStorage.setItem(Agency, agency)
+}
+
+export function removeAgency() {
+  return sessionStorage.removeItem(Agency)
 }

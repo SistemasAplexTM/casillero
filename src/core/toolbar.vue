@@ -27,29 +27,35 @@
 				<i class="mdi mdi-fullscreen" v-if="!fullscreen"></i>
 				<i class="mdi mdi-fullscreen-exit" v-if="fullscreen"></i>
 			</button>
-			<el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
+			<!-- <el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
 				<notification-box></notification-box>
 			</el-popover>
 			<el-badge :value="12" class="item">
 			  <el-button size="small" v-popover:popover class="notification-icon">
 					<i class="fal fa-bell"></i>
 				</el-button>
-			</el-badge>
+			</el-badge> -->
 			<!-- <el-badge :is-dot="true">
 				<el-button v-popover:popover class="notification-icon">
 					<i class="fal fa-bell"></i>
 				</el-button>
 			</el-badge> -->
+			<el-tooltip class="item" effect="dark" content="Prealertar" placement="top-start">
+				<el-button class="notification-icon" @click="dialogvisiblePrealert=true">
+					<i class="fal fa-plus"></i>
+				</el-button>
+			</el-tooltip>
 			<span class="username"><router-link to="/profile">{{ $store.getters.user.po_box }}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
 					<img src="../assets/images/profile.png" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Profile</el-dropdown-item>
-					<el-dropdown-item command="/calendar"><i class="mdi mdi-calendar mr-10"></i> Calendar</el-dropdown-item>
-					<el-dropdown-item command="/contacts"><i class="mdi mdi-account-multiple mr-10"></i> Contacts</el-dropdown-item>
-					<el-dropdown-item command="logout" divided><i class="mdi mdi-logout mr-10"></i> Logout</el-dropdown-item>
+					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
+					<!-- <el-dropdown-item command="/config"><i class="mdi mdi-settings mr-10"></i> Configuración</el-dropdown-item> -->
+					<!-- <el-dropdown-item command="/calendar"><i class="mdi mdi-calendar mr-10"></i> Calendar</el-dropdown-item> -->
+					<!-- <el-dropdown-item command="/contacts"><i class="mdi mdi-account-multiple mr-10"></i> Contacts</el-dropdown-item> -->
+					<el-dropdown-item command="logout" divided><i class="mdi mdi-logout mr-10"></i> Salir</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
 
@@ -57,12 +63,14 @@
 				<i class="mdi mdi-menu"></i>
 			</button>
 		</div>
+		<prealert-dialog :dialogvisible.sync="dialogvisiblePrealert" @submitPrealert="dialogvisiblePrealert=false"></prealert-dialog>
 	</div>
 </template>
 
 <script>
 import NotificationBox from '@/components/NotificationBox'
 import Search from '@/components/Search'
+import PrealertDialog from '@/components/PrealertDialog'
 
 export default {
 	name: 'Toolbar',
@@ -71,7 +79,8 @@ export default {
 		return {
 			popoverWidth: 300,
 			fullscreen: false,
-			lang: 'us'
+			lang: 'us',
+			dialogvisiblePrealert: false
 		}
 	},
 	methods: {
@@ -107,7 +116,8 @@ export default {
 	},
 	components: {
 		NotificationBox,
-		Search
+		Search,
+		PrealertDialog
 	},
 	mounted() {
 		this.fullscreen = this.$fullscreen.getState()
@@ -121,8 +131,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/scss/_variables';
-@import '../assets/scss/_mixins';
+	@import '../assets/scss/_variables';
+	@import '../assets/scss/_mixins';
 
 .toolbar {
 	width: 100%;

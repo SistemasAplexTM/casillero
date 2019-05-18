@@ -58,13 +58,15 @@
 
 		<Footer v-if="footer === 'above'" :position="footer"/>
 
-		<layout-picker :position="navPos" v-if="isLogged"/>
+		<!-- <layout-picker :position="navPos" v-if="isLogged"/> -->
 	</div>
 </template>
 
 
 <script>
 import { detect } from 'detect-browser'
+import { getUrlZopim } from '@/api/integrations'
+import { getToken } from '@/utils/auth'
 const browser = detect()
 // @ is an alias to /src
 import HorizontalNav from '@/core/horizontal-nav.vue'
@@ -72,7 +74,6 @@ import VerticalNav from '@/core/vertical-nav.vue'
 import Toolbar from '@/core/toolbar.vue'
 import Footer from '@/core/footer.vue'
 import LayoutPicker from '@/components/layout-picker.vue'
-
 export default {
 	name: 'App',
 	data() {
@@ -118,6 +119,18 @@ export default {
 				this.collapseNav = false
 			}
 		},
+		setMeta(){
+			if (getToken()) {
+				getUrlZopim(1).then(({data}) => {
+					var head = document.getElementsByTagName('head')[0];
+					var script = document.createElement('script');
+					script.type = "text/javascript";
+					script.src = data.url;
+					script.src = 'https://v2.zopim.com/?4bgf79NrNomNcX7rm4q57Yub3oajTABu';
+					head.appendChild(script);
+				}).catch(error => {console.log(error)})
+			}
+		},
 		closeSidebar() {
 			this.openSidebar = false
 		}
@@ -135,6 +148,7 @@ export default {
 	},
 	mounted() {
 		this.resizeOpenNav()
+		this.setMeta()
 		window.addEventListener('resize', this.resizeOpenNav);
 	},
 	beforeDestroy() {

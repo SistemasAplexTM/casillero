@@ -12,15 +12,27 @@
     }
   },
   {
-    "path": "/prealert",
-    "name": "Prealerta",
-    "component": "Prealert",
+    "path": "/transit",
+    "name": "Tránsito",
+    "redirect": "tracking/transito/Tránsito",
     "meta": {
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "bells"
+      "icon": "plane"
+    }
+  },
+  {
+    "path": "/locker",
+    "name": "Casillero",
+    "redirect": "tracking/2/Casillero",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "shopping-bag"
     }
   },
   {
@@ -36,10 +48,48 @@
     }
   },
   {
+    "path": "/prealert/create",
+    "name": "Crear prealerta",
+    "redirect": "prealert/1",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "bell"
+    }
+  },
+  {
+    "path": "/prealert/list",
+    "name": "Prealertas",
+    "redirect": "prealert/0",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "bells"
+    }
+  },
+  {
+    "path": "/prealert/:create",
+    "name": "Prealerta",
+    "component": "Prealert",
+    "meta": {
+      "nav": false,
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "bells"
+    }
+  },
+  {
     "path": "/invoice",
     "name": "Facturas",
     "component": "Invoice",
     "meta": {
+     "nav": false,
       "auth": true,
       "layout": "contenOnly",
       "searchable": true,
@@ -65,6 +115,7 @@
     "name": "Perfil",
     "component": "Profile",
     "meta": {
+     "nav": false,
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
@@ -77,6 +128,7 @@
     "name": "Configuración",
     "component": "Config",
     "meta": {
+      "nav": false,
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
