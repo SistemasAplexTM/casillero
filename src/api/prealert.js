@@ -14,3 +14,10 @@ export function setPrealert(data) {
     data
   })
 }
+
+export function getCantPrealert(agency_id, consignee_id) {
+ return request({
+  url: '/getCantPrealert/' + agency_id + '/'+ consignee_id,
+  method: 'get'
+ })
+}

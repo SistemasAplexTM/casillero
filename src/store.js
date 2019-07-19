@@ -1,4 +1,4 @@
-import { removeToken, removeUser, getUser } from '@/utils/auth'
+import { removeToken, removeUser, removeAgency, getUser } from '@/utils/auth'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
@@ -18,6 +18,7 @@ export default new Vuex.Store({
 			viewAnimation: 'fade-top' // fade-left, fade-right, fade-top, fade-top-in-out, fade-bottom, fade-bottom-in-out, fade, false
 		},
 		splashScreen: true,
+		submitPrealert: false,
 		logged: true,
 		user: getUser()
 	},
@@ -52,12 +53,16 @@ export default new Vuex.Store({
 		},
 		setSplashScreen(state, payload) {
 			state.splashScreen = payload
+		},
+		setSubmitPrealert(state, payload) {
+			state.submitPrealert = payload
 		}
 	},
 	actions: {
 		logout(){
 			removeToken()
 			removeUser()
+			removeAgency()
 			window.location.href = '/'
 		}
 	},
@@ -88,6 +93,9 @@ export default new Vuex.Store({
 		},
 		splashScreen(state, getters) {
 			return state.splashScreen
+		},
+		submitPrealert(state, getters) {
+			return state.submitPrealert
 		},
 		user(state, getters) {
 			return state.user

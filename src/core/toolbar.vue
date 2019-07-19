@@ -2,7 +2,7 @@
 	<div class="toolbar flex align-center justify-space-between">
 		<div class="box-left box grow flex">
 			<button @click="toggleSidebar" v-if="menuBurger !== 'right'" class="toggle-sidebar card-base card-shadow--small">
-				<i class="mdi mdi-menu"></i>
+				<i class="fal fa-bars"></i>
 			</button>
 
 			<search class="hidden-xs-only"></search>
@@ -24,8 +24,8 @@
 				</el-dropdown-menu>
 			</el-dropdown> -->
 			<button class="fullscreen-button" @click="toggleFullscreen">
-				<i class="mdi mdi-fullscreen" v-if="!fullscreen"></i>
-				<i class="mdi mdi-fullscreen-exit" v-if="fullscreen"></i>
+				<i class="fal fa-arrows-alt" v-if="!fullscreen"></i>
+				<i class="fal fa-compress-arrows-alt" v-if="fullscreen"></i>
 			</button>
 			<!-- <el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
 				<notification-box></notification-box>
@@ -40,30 +40,30 @@
 					<i class="fal fa-bell"></i>
 				</el-button>
 			</el-badge> -->
-			<el-tooltip class="item" effect="dark" content="Prealertar" placement="top-start">
-				<el-button class="notification-icon" @click="dialogvisiblePrealert=true">
-					<i class="fal fa-plus"></i>
+			<!-- <el-tooltip class="item" effect="dark" content="Prealertar" placement="top-start"> -->
+				<el-button class="notification-icon accent-text" @click="dialogvisiblePrealert=true">
+					<i class="fal fa-plus"> </i> Prealertar
 				</el-button>
-			</el-tooltip>
+			<!-- </el-tooltip> -->
 			<span class="username"><router-link to="/profile">{{ $store.getters.user.po_box }}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
 					<img src="../assets/images/profile.png" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
+					<el-dropdown-item command="/profile"><i class="fal fa-user-cog mr-10"></i> Perfil</el-dropdown-item>
 					<!-- <el-dropdown-item command="/config"><i class="mdi mdi-settings mr-10"></i> Configuración</el-dropdown-item> -->
 					<!-- <el-dropdown-item command="/calendar"><i class="mdi mdi-calendar mr-10"></i> Calendar</el-dropdown-item> -->
 					<!-- <el-dropdown-item command="/contacts"><i class="mdi mdi-account-multiple mr-10"></i> Contacts</el-dropdown-item> -->
-					<el-dropdown-item command="logout" divided><i class="mdi mdi-logout mr-10"></i> Salir</el-dropdown-item>
+					<el-dropdown-item command="logout" divided><i class="fal fa-sign-out-alt mr-10"></i> Salir</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
 
 			<button @click="toggleSidebar" v-if="menuBurger === 'right'" class="toggle-sidebar toggle-sidebar__right card-base card-shadow--small">
-				<i class="mdi mdi-menu"></i>
+				<i class="fal fa-bars"></i>
 			</button>
 		</div>
-		<prealert-dialog :dialogvisible.sync="dialogvisiblePrealert" @submitPrealert="dialogvisiblePrealert=false"></prealert-dialog>
+		<prealert-dialog :dialogvisible.sync="dialogvisiblePrealert" @submitPrealert="prealert()"></prealert-dialog>
 	</div>
 </template>
 
@@ -84,6 +84,10 @@ export default {
 		}
 	},
 	methods: {
+		prealert(){
+			this.dialogvisiblePrealert = false
+			this.$store.commit('setSubmitPrealert', true)
+		},
 		onCommandLang(lang) {
 			if(lang.charAt(0) === '/')
 				this.onCommand(lang)
@@ -180,7 +184,7 @@ export default {
 		border: none;
 		margin-left: 20px;
 		//color: #aab7c5;
-		color: transparentize($text-color, 0.7);
+		// color: transparentize($text-color, 0.7);
 		@include text-bordered-shadow();
 
 		&:hover {

@@ -34,6 +34,9 @@
 							</timeline-title>
 							<timeline-item :hollow="true">
 								{{ item.descripcion_general }}
+								<span v-if="item.transportadora_url_rastreo">
+									<p>Para seguir su carga con la transportadora local haga clic <a  :href="item.transportadora_url_rastreo + item.transportadora_guia" target="_blank">aquí</a></p>
+								</span>
 							</timeline-item>
 						</template>
 					</timeline>
@@ -45,13 +48,13 @@
 							<el-badge class="accent-text m-a" :value="trackingInWH(data.trackings)" />
 					</span>
 					<el-collapse v-model="activeCollapse" accordion>
-					  <el-collapse-item v-for="tracking in trackings"  :name="tracking.id">
+					  <el-collapse-item v-for="tracking in trackings" :key="tracking.id" :name="tracking.id">
 							<template slot="title">
-								<div class="font-weight-900">
-									<i class="fal fa-truck icon-menu"></i>
-										{{ tracking.codigo }}
-								</div>
-					    </template>
+									<div class="font-weight-900">
+										<i class="fal fa-truck icon-menu"></i>
+											{{ tracking.codigo }}
+									</div>
+				    </template>
 							<el-row :gutter="20">
 							    <el-col :span="10" class="br">
 							        LLEGADA A LA BODEGA:

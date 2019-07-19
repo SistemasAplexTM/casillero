@@ -3,7 +3,7 @@
     <el-select
       size="medium"
       clearable
-      v-model="city_id"
+      v-model="city_id.nombre"
       filterable
       remote
       reserve-keyword
@@ -41,7 +41,7 @@ export default {
     }
   },
   watch:{
-    selected:function(value) {
+    selected:function(value, old) {
       this.city_id = value
     }
   },
@@ -54,8 +54,11 @@ export default {
       getCity().then((response) => {
           me.list = response.data.data;
       }).catch(function(error) {
-          console.log(error);
-          toastr.warning('Error: -' + error);
+          me.$message({
+          showClose: true,
+          message: 'Error',
+          type: 'error'
+        });
       });
     },
     remoteMethod(query) {
@@ -73,6 +76,7 @@ export default {
       }
     },
     handleSelect(item) {
+     console.log('Pakñldmoskdmaokm  ', item);
       this.$emit('get', item);
     }
   }

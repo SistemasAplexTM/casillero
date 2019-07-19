@@ -74,17 +74,20 @@ import { getContacts } from '@/api/user'
   	},
     mounted() {
   		this.setPageWidth()
-  		this.getData()
+  		// this.getData()
   	},
     methods: {
       getData(){
         let me = this
-  			me.loading = true
+  						me.loading = true
         var user = getUser()
         getContacts(user.id).then(({data}) => {
-					data = JSON.parse(data.data.contactos_json)
-          this.contacts = data.campos
-        	me.loading = false
+									data = JSON.parse(data.data.contactos_json)
+									console.log(data);
+									if (data) {
+										 this.contacts = data.campos
+									}
+										me.loading = false
         }).catch(error => { console.log(error) })
       },
       refresh(){

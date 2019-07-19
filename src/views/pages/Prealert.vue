@@ -3,10 +3,12 @@
     <div class="page-header">
 			<h1 class="mb-2">Prealertas</h1>
 			<el-breadcrumb separator="/">
-				<el-breadcrumb-item :to="{ path: '/' }"><i class="mdi mdi-home-outline"></i></el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/' }"><i class="fal fa-home"></i></el-breadcrumb-item>
 				<el-breadcrumb-item>Prealertas</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
+  <!-- <el-row>
+    <el-col :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}"> -->
 		<resize-observer @notify="__resizeHanlder" />
 		<div class="search-wrap flex align-center">
 			<el-input v-model="search" placeholder="Buscar">
@@ -19,10 +21,11 @@
 		</div>
 		<div class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass">
 			<div class="contacts-list box grow scrollable only-y">
+
 				<transition-group name="fade">
 					<div v-if="prealertsFiltered.length > 0" key="full" v-for="t in prealertsFiltered" :key="t.id" class="flex contact border-bottom">
 						<div class="star align-vertical p-10 fs-15">
-              <el-badge class="align-vertical-middle" :value="t.despachar == 0 ? 'Esperar' : 'Despachar'" />
+       <el-badge class="align-vertical-middle" :value="t.despachar == 0 ? 'Esperar' : 'Despachar'" />
 							<!-- <i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i> -->
 						</div>
 						<div class="avatar align-vertical">
@@ -45,7 +48,7 @@
 								<i class="fal fa-spinner fa-spin fa-7x m-a"></i>
 							</el-col>
 							<el-col v-else :span="24" class="text-center">
-								<h1>No se han realizado prealertas</h1>
+								<h1>No se encontraron prealertas</h1>
 								<i class="fal fa-box-open fa-7x m-a"></i>
 							</el-col>
 						</el-row>
@@ -53,6 +56,8 @@
 				</transition-group>
 			</div>
 		</div>
+  <!-- </el-col>
+ </el-row> -->
 		<prealert-dialog :dialogvisible.sync="dialogvisible" @submitPrealert="refresh"></prealert-dialog>
 	</div>
 </template>
@@ -90,7 +95,6 @@ import { getUser } from '@/utils/auth'
   		}
   	},
    mounted() {
-    console.log(this.$route.params.create);
     if (this.$route.params.create == 1) {
      this.dialogvisible = true
     }

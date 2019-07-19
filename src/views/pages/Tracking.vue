@@ -3,10 +3,12 @@
 		<div class="page-header">
 			<h1 class="mb-2">{{ title }}</h1>
 			<el-breadcrumb separator="/">
-				<el-breadcrumb-item :to="{ path: '/' }"><i class="mdi mdi-home-outline"></i></el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/' }"><i class="fal fa-home"></i></el-breadcrumb-item>
 				<el-breadcrumb-item>Trackings</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
+		<el-row>
+				<el-col :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
 		<resize-observer @notify="__resizeHanlder" />
 		<div class="search-wrap flex align-center">
 			<el-input v-model="search" placeholder="Buscar">
@@ -16,7 +18,8 @@
 		</div>
 		<div class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass">
 			<div class="contacts-list box grow scrollable only-y">
-				<transition-group name="fade">
+
+								<transition-group name="fade">
 					<div v-if="trackingsFiltered.length > 0" key="full" v-for="t in trackingsFiltered" :key="t.id" class="flex contact border-bottom" @click="openDialog(t)">
 						<div class="star align-vertical p-10 fs-15">
 							<i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i>
@@ -26,16 +29,16 @@
 							<!-- <img :src="'/static/images/users/user-'+c.id+'.jpg'" class="align-vertical-middle" alt="user avatar"> -->
 						</div>
 						<div class="info box grow flex">
-							<div class="name box grow flex column justify-center p-0">
-								<div class="fullname fs-22">{{ t.num_warehouse }}</div>
-								<div class="fs-14 secondary-text">{{ t.fecha_status }}</div>
-								<div class="fs-14 secondary-text">{{ t.descripcion }}</div>
-								<div class="email">
-									<p><strong>{{ trackingInWH(t.tracking) }}</strong> Trackings en esta caja.</p>
+								<div class="name box grow flex column justify-center p-0">
+									<div class="fullname fs-22">{{ t.num_warehouse }}</div>
+									<div class="fs-14 secondary-text">{{ t.fecha_status }}</div>
+									<div class="fs-14 secondary-text">{{ t.descripcion }}</div>
+									<div class="email">
+										<p><strong>{{ trackingInWH(t.tracking) }}</strong> Trackings en esta caja.</p>
+									</div>
 								</div>
-							</div>
 							<!-- <div class="phone align-vertical p-10"><span class="align-vertical-middle">{{c.date}}</span></div> -->
-						</div>
+							</div>
 					</div>
 					<div v-if="trackingsFiltered.length <= 0" key="empty">
 						<el-row :gutter="20" class="pt-50 o-050">
@@ -52,6 +55,8 @@
 				</transition-group>
 			</div>
 		</div>
+	</el-col>
+</el-row>
 		<tracking-dialog :dialogvisible.sync="dialogvisible" :data="warehouse" :dataHead="dataHead"></tracking-dialog>
 	</div>
 </template>
@@ -90,7 +95,6 @@ export default {
 	},
 	watch:{
 		title(newVal, oldVal){
-			console.log(newVal, oldVal);
 			if (newVal != oldVal) {
 				this.getData()
 			}

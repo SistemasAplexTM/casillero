@@ -1,7 +1,7 @@
 <template>
 	<vue-scroll class="page-profile" id="affix-container">
 		<div class="card-base card-shadow--medium identity" id="boundary">
-			<div class="cover"></div>
+			<div class="cover" v-bind:style="{ 'background-image': 'url(' + require('../../assets/images/Foto-2.jpg') + ')' }"></div>
 			<!--<div class="username" v-affix="{parentid: 'affix-container', boundaryid: '', delay:600, offset:0, enable:() => affixEnabled}">-->
 			<div class="username">
 				<div class="cover-small"></div>
@@ -19,9 +19,9 @@
 				<el-tab-pane label="Información" name="info">
 					<profile-edit></profile-edit>
 				</el-tab-pane>
-				<el-tab-pane label="Contactos" name="timeline">
+				<!-- <el-tab-pane label="Contactos" name="timeline">
 					<profile-contacts></profile-contacts>
-				</el-tab-pane>
+				</el-tab-pane> -->
 			</el-tabs>
 		</div>
 	</vue-scroll>
@@ -33,12 +33,14 @@ import Affix from '@/components/Affix'
 import ProfileEdit from '@/components/Profile/ProfileEdit'
 import ProfileContacts from '@/components/Profile/ProfileContacts'
 import { user } from '@/api/login'
+import { find } from '@/api/user'
 
 export default {
 	name: 'Profile',
 	data() {
 		return {
-			username: 'Duvier Marin',
+			img: '@/assets/images/Foto-2.jpg',
+			username: '',
 			colorActive: false,
 			color: 'white',
 			activeTab: 'info',
@@ -47,8 +49,8 @@ export default {
 	},
 	methods: {
 		getUser(){
-			user().then(({data}) => {
-				// console.log(data);
+			find(this.$store.getters.user.id).then(({data}) => {
+				this.username = data.data[0].nombre_full
 			}).catch(error => error)
 		},
 		resizeAffixEnabled() {
@@ -101,7 +103,7 @@ export default {
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background-image: url('../../assets/images/Foto-2.jpg');
+			// background-image: url('../../assets/images/Foto-2.jpg');
 			background-position: 50%;
 			background-size: cover;
 			background-repeat: no-repeat;

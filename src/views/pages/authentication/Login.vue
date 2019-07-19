@@ -2,7 +2,7 @@
 	<vue-scroll class="login-page align-vertical">
 		<div class="form-wrapper align-vertical-middle">
 			<div class="form-box card-base card-shadow--extraLarge">
-				<img class="image-logo" src="@/assets/images/logo.png" alt="logo"/>
+				<!-- <img class="image-logo" src="@/assets/images/logo.png" alt="logo"/> -->
 
 				<float-label class="styled">
 					<input v-model="email" type="email" placeholder="Correo" autofocus>
@@ -11,10 +11,10 @@
 					<input v-model="password" type="password" placeholder="Contraseña">
 				</float-label>
 
-				<div class="flex">
+				<!-- <div class="flex">
 					<div class="box grow"><el-checkbox>Remember Me </el-checkbox></div>
 					<div class="box grow text-right"><router-link to="/dashboard">Forgot Password?</router-link></div>
-				</div>
+				</div> -->
 				<br>
 				<el-alert
 					v-show="error"
@@ -25,24 +25,12 @@
 				</el-alert>
 				<div class="flex text-center center pt-30 pb-10">
 					<el-button plain size="small" @click="Login" class="login-btn tada animated" :loading="loading">
-						LOGIN
+						Entrar
 					</el-button>
 				</div>
-
-				<!-- <div class="text-divider mv-10">or</div> -->
-
-				<!-- <div class="flex column center pt-10 pb-10">
-					<el-button plain size="small" @click="Login" class="social-btn google">
-						Log in with Google
-					</el-button>
-					<el-button plain size="small" @click="Login" class="social-btn facebook">
-						Log in with Facebook
-					</el-button>
-				</div> -->
-
-				<div class="text-center signin-box pt-20">
+				<!-- <div class="text-center signin-box pt-20">
 					Don't have an account? <a>Sign in</a>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</vue-scroll>
@@ -55,8 +43,8 @@ export default {
 	name: 'Login',
 	data() {
 		return {
-			email: '',
-			password: '',
+			email: 'admin@admin.com',
+			password: 'admin123',
 			error: false,
 			errorMsg: '',
 			loading: false

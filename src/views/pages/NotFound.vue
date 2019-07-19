@@ -11,7 +11,10 @@
 
 <script>
 export default {
-	name: 'NotFound'
+	name: 'NotFound',
+	mounted(){
+		console.log('ruta : ', this.$route);
+	}
 }
 </script>
 
@@ -28,4 +31,3 @@ export default {
 	}
 }
 </style>
-

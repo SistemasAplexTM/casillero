@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="pt-10 p-20">
-			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" label-position="top" class="demo-ruleForm">
 			  <el-form-item label="Tracking" prop="tracking">
 			    <el-input v-model="ruleForm.tracking"></el-input>
 			  </el-form-item>
@@ -21,7 +21,7 @@
 				 <el-switch v-model="ruleForm.despachar"></el-switch>
 				</el-form-item>
 			  <el-form-item>
-			    <el-button type="primary" @click="submitForm('ruleForm')">Aceptar</el-button>
+			    <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">Aceptar</el-button>
 			    <el-button @click="resetForm('ruleForm')">Reset</el-button>
 			  </el-form-item>
 			</el-form>
@@ -37,6 +37,7 @@ export default {
 	props: ['data', 'dialogvisible'],
 	data() {
 		return {
+			loading: false,
 			ruleForm: {
         tracking: '',
         instruccion: '',
@@ -56,17 +57,20 @@ export default {
 	},
 	methods:{
 		submitForm(formName) {
+			this.loading = true
 			 this.$refs[formName].validate((valid) => {
 				 if (valid) {
 					 this.ruleForm.consignee_id = this.$store.getters.user.id
 					 this.ruleForm.agencia_id = this.$store.getters.user.agencia_id
-					 console.log(this.$store.getters.user.id);
+					 this.ruleForm.correo = this.$store.getters.user.correo
 					 setPrealert(this.ruleForm).then(({data}) => {
 						 this.resetForm('ruleForm')
+							this.loading = false
 						 this.$emit('submitPrealert')
 					 }).catch(error => { console.log(error) })
 				 } else {
 					 console.log('error submit!!');
+						this.loading = false
 					 return false;
 				 }
 			 });
@@ -78,6 +82,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.el-dialog__headerbtn .el-dialog__close{
+	color: white;
+}
 .el-tabs__header{
 	margin-bottom: 0
 }

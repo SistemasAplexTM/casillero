@@ -1,4 +1,4 @@
-import { getToken } from '@/utils/auth'
+import { getToken, getAgency } from '@/utils/auth'
 import RoutesDB from '@/utils/ROUTES.json'
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -44,7 +44,7 @@ const l = {
 	}
 }
 
-//insert here login logic
+// insert here login logic
 const auth = {
 	loggedIn() {
 		return store.getters.isLogged && getToken()
@@ -53,8 +53,19 @@ const auth = {
 		store.commit('setLogout')
 	}
 }
-
+var agency = getAgency()
+var agencyDesc = 'DEMO'
 router.beforeEach((to, from, next) => {
+	var title = to.meta.title
+	if (to.params.type) {
+		title = to.params.type
+	}
+	if (agency) {
+		agencyDesc = agency.descripcion
+	}else{
+		agencyDesc = ' '
+	}
+	document.title =   title  + ' - ' + agencyDesc
 	let authrequired = false
 	if(to && to.meta && to.meta.auth){
 		authrequired = true

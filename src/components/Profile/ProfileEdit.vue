@@ -4,24 +4,24 @@
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Documento">
-						<el-input v-model="form.documento"/>
+						<el-input size="small" v-model="form.documento"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Correo">
-						<el-input v-model="form.correo" type="email"/>
+						<el-input size="small" v-model="form.correo" type="email"/>
 					</el-form-item>
 				</el-col>
 			</el-col>
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Primer nombre">
-						<el-input v-model="form.primer_nombre"/>
+						<el-input size="small" v-model="form.primer_nombre"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Segundo nombre">
-						<el-input v-model="form.segundo_nombre"/>
+						<el-input size="small" v-model="form.segundo_nombre"/>
 					</el-form-item>
 				</el-col>
 			</el-col>
@@ -29,7 +29,7 @@
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Primer apellido">
-						<el-input v-model="form.primer_apellido"/>
+						<el-input size="small" v-model="form.primer_apellido"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
@@ -41,19 +41,19 @@
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Teléfono">
-						<el-input v-model="form.telefono" placeholder=""/>
+						<el-input size="small" v-model="form.telefono" placeholder=""/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Celular">
-						<el-input v-model="form.celular" placeholder=""/>
+						<el-input size="small" v-model="form.celular" placeholder=""/>
 					</el-form-item>
 				</el-col>
 			</el-col>
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Dirección">
-						<el-input v-model="form.direccion"/>
+						<el-input size="small" v-model="form.direccion"/>
 					</el-form-item>
 				</el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
@@ -65,7 +65,7 @@
 			<el-col>
 				<el-col :span="12" :md="12" :sm="24" :xs="24" class="col-p">
 					<el-form-item label="Ciudad">
-						<city-component @get="localizacion_id = $event.id" :selected="form.localizacion_id"/>
+						<city-component @get="form.localizacion_id = $event.id" :selected="form.city"/>
 						<!-- <el-input v-model="form.localizacion_id"/> -->
 					</el-form-item>
 				</el-col>
@@ -113,7 +113,6 @@ export default {
 	},
 	methods: {
 		onSubmit() {
-			console.log('submit!');
 			update(this.form).then(({data}) => {
 				if (data.code == 200) {
 					this.$message.success('Actualizado con éxito.')
@@ -122,7 +121,7 @@ export default {
 		},
 		setData(){
 			find(this.$store.getters.user.id).then(({data}) => {
-				this.form = data.data
+				this.form = data.data[0]
 			}).catch(error => error)
 		},
 		resizeLabelPosition() {

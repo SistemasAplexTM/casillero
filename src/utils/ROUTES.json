@@ -8,7 +8,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "home"
+      "icon": "home",
+      "title": "Inicio"
     }
   },
   {
@@ -20,7 +21,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "plane"
+      "icon": "plane",
+      "title": "Tránsito"
     }
   },
   {
@@ -32,7 +34,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "shopping-bag"
+      "icon": "shopping-bag",
+      "title": "Casillero"
     }
   },
   {
@@ -44,7 +47,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "share-square"
+      "icon": "share-square",
+      "title": "Recibido"
     }
   },
   {
@@ -56,7 +60,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "bell"
+      "icon": "bell",
+      "title": "Crear prealerta"
     }
   },
   {
@@ -68,7 +73,9 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "bells"
+      "icon": "bells",
+      "title": "Prealertas"
+
     }
   },
   {
@@ -81,7 +88,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "bells"
+      "icon": "bells",
+      "title": "Prealerta"
     }
   },
   {
@@ -107,7 +115,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "search-location"
+      "icon": "search-location",
+      "title": "Rastreo"
     }
   },
   {
@@ -120,7 +129,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "male"
+      "icon": "male",
+      "title": "Perfil"
     }
   },
   {
@@ -133,7 +143,8 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "cogs"
+      "icon": "cogs",
+      "title": "Configuración"
     }
   },
   {
@@ -142,7 +153,8 @@
     "component": "authentication/Login",
     "meta": {
       "nav": false,
-      "layout": "contenOnly"
+      "layout": "contenOnly",
+      "title": "Entrar"
     }
   },
   {
