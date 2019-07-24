@@ -14,7 +14,7 @@
   },
   {
     "path": "/transit",
-    "name": "Tránsito",
+    "name": "Ver Tránsito",
     "redirect": "tracking/transito/Tránsito",
     "meta": {
       "auth": true,
@@ -27,7 +27,7 @@
   },
   {
     "path": "/locker",
-    "name": "Casillero",
+    "name": "Ver Casillero",
     "redirect": "tracking/2/Casillero",
     "meta": {
       "auth": true,
@@ -40,7 +40,7 @@
   },
   {
     "path": "/received",
-    "name": "Recibido",
+    "name": "Ver Recibido",
     "redirect": "tracking/7/Recibido",
     "meta": {
       "auth": true,
@@ -52,21 +52,8 @@
     }
   },
   {
-    "path": "/prealert/create",
-    "name": "Crear prealerta",
-    "redirect": "prealert/1",
-    "meta": {
-      "auth": true,
-      "layout": "navLeft",
-      "searchable": true,
-      "tags": ["Página"],
-      "icon": "bell",
-      "title": "Crear prealerta"
-    }
-  },
-  {
     "path": "/prealert/list",
-    "name": "Prealertas",
+    "name": "Ver Prealertas",
     "redirect": "prealert/0",
     "meta": {
       "auth": true,
@@ -74,6 +61,21 @@
       "searchable": true,
       "tags": ["Página"],
       "icon": "bells",
+      "title": "Prealertas"
+
+    }
+  },
+  {
+    "path": "/promotions",
+    "name": "Ver Promociones",
+    "component": "Promotion",
+    "meta": {
+      "auth": true,
+      "layout": "navLeft",
+      "searchable": true,
+      "tags": ["Página"],
+      "icon": "tags",
+      "class": "hidden-sm-and-up",
       "title": "Prealertas"
 
     }
@@ -97,12 +99,13 @@
     "name": "Facturas",
     "component": "Invoice",
     "meta": {
-     "nav": false,
+     "nav": true,
       "auth": true,
-      "layout": "contenOnly",
+      "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "file-invoice-dollar"
+      "icon": "file-invoice-dollar",
+      "title": "Facura"
     }
   },
   {
@@ -141,14 +144,14 @@
       "nav": false,
       "auth": true,
       "layout": "navLeft",
-      "searchable": true,
+      "searchable": false,
       "tags": ["Página"],
       "icon": "cogs",
       "title": "Configuración"
     }
   },
   {
-    "path": "/login",
+    "path": "/login/:agency_id",
     "name": "login",
     "component": "authentication/Login",
     "meta": {

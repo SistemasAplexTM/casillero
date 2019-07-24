@@ -25,3 +25,10 @@ export function logout() {
     method: 'get'
   })
 }
+
+export function getLogo(agency_id) {
+  return request({
+    url: '/getLogo/' + agency_id,
+    method: 'get'
+  })
+}

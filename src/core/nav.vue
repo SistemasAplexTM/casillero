@@ -11,7 +11,7 @@
 	>
 		<template v-for="(item, index) in menu" >
 			<div v-if="item.meta.header" class="el-menu-item-group__title"><span>{{ item.name }}</span></div>
-			<el-menu-item v-if="item.meta.nav != false && !item.meta.header" :index="item.path">
+			<el-menu-item v-if="item.meta.nav != false && !item.meta.header" :index="item.path" :class="item.meta.class">
 				<i :class="'icon-menu fal fa-' + item.meta.icon"></i>
 				<span>{{ item.name }}</span>
 			</el-menu-item>

@@ -1,9 +1,8 @@
 <template>
-	<vue-scroll class="login-page align-vertical">
+	<vue-scroll class="login-page align-vertical" id="background" v-bind:style="{ 'background-image': 'url(' + require('../../../assets/images/contenedores-848x450.jpg') + ')' }">
 		<div class="form-wrapper align-vertical-middle">
 			<div class="form-box card-base card-shadow--extraLarge">
-				<!-- <img class="image-logo" src="@/assets/images/logo.png" alt="logo"/> -->
-
+				<img class="image-logo" :src="img" alt="logo"/>
 				<float-label class="styled">
 					<input v-model="email" type="email" placeholder="Correo" autofocus>
 				</float-label>
@@ -39,6 +38,7 @@
 <script>
 import { login } from '@/api/login'
 import { setToken, setUser, setAgency } from '@/utils/auth'
+import { getLogo } from '@/api/login'
 export default {
 	name: 'Login',
 	data() {
@@ -47,8 +47,12 @@ export default {
 			password: 'admin123',
 			error: false,
 			errorMsg: '',
-			loading: false
+			loading: false,
+			img: ''
 		}
+	},
+	created(){
+		this.getImg()
 	},
 	methods: {
 		Login() {
@@ -66,7 +70,12 @@ export default {
 				 this.errorMsg = error.errors
       console.log(error);
    })
-		}
+		},
+		getImg(){
+			getLogo(this.$route.params.agency_id).then(({data}) => {
+				this.img = process.env.VUE_APP_ROOT_IMG + '/' + data.data
+			}).catch(error => error)
+		},
 	}
 }
 </script>
@@ -74,8 +83,30 @@ export default {
 <style lang="scss">
 @import '../../../assets/scss/_variables';
 
+#background{
+	// background-image: url('../../../assets/images/contenedores-marítimos-848x450.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	z-index:1;
+}
+#background::after{
+	content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:-1;
+	// background-color: rgba(0,0,0,0.10);
+	// filter:brightness(0.1);
+}
+
 .login-page {
-	background: $text-color;
+	// background: $text-color;
+
+	// max-width: 100%;
+
 	margin-left: -30px;
 	margin-right: -30px;
 
@@ -132,6 +163,7 @@ export default {
 		}
 	}
 }
+
 
 @media (max-width: 768px) {
 	.layout-container .container .view.login-page {

@@ -1,5 +1,5 @@
 <template>
-		<vue-scroll class="scrollable only-y">
+		<div class="scrollable only-y">
 		<el-row :gutter="12">
 		    <el-col :span="24" class="text-center lh-1 mb-5">
 	        <h3 class="m-0 font-weight-300">Mi Casillero</h3>
@@ -16,7 +16,7 @@
 	   <el-col :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
 							<el-row class="mt-0 w-50" :gutter="15">
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/transito/Tránsito')">
+									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/transito/Tránsito', 1)">
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-0 animated fadeInRight" style="margin-right: -5px">
@@ -38,7 +38,7 @@
 									</div>
 								</el-col>
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/2/Casillero')">
+									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/2/Casillero', 2)">
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-10 animated fadeInRight">
@@ -60,7 +60,7 @@
 									</div>
 								</el-col>
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/7/Recibido')">
+									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/7/Recibido', 7)">
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-10 animated fadeInRight">
@@ -82,7 +82,7 @@
 									</div>
 								</el-col>
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"  @click="select('prealert/list')">
+									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"  @click="select('prealert/list', null)">
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-0 animated fadeInRight">
@@ -106,14 +106,8 @@
 							</el-row>
     </el-col>
 		</el-row>
-		<el-row v-for="item in advertising">
-		    <el-col v-for="column in item"  :lg="column.width" :xs="24">
-			       <div :class="'bg-'+column.color" class="text-center mt-30">
-										<h1 v-html="column.text"></h1>
-		       </div>
-		    </el-col>
-		</el-row>
-	</vue-scroll>
+		<promotions class="hidden-sm-and-down"></promotions>
+	</div>
 </template>
 
 <script>
@@ -121,9 +115,11 @@ import { getUser, getAgency } from '@/utils/auth'
 import { getAllWarehouse } from '@/api/tracking'
 import { getCantPrealert } from '@/api/prealert'
 import { mapGetters } from 'vuex'
+import Promotions from './Promotion'
 
 export default {
 	name: 'Home',
+	components: { Promotions },
 	data () {
 		return {
   	loading: false,
@@ -137,10 +133,10 @@ export default {
 					{width: 24, color: 'info-light', text: '<a><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/The_Banner_Saga_logo_transparent.png/1200px-The_Banner_Saga_logo_transparent.png"></a>'},
 				],
 				[
-					{width: 12, color: 'info-light', text: '<center><a href="https://www.siteground.com/web-hosting.htm?afbannercode=01aff31ae3f01cbcac6752d914848efb"><img src="https://ua.siteground.com/img/banners/general/static/250x250.jpg" alt="Web Hosting" width="250" height="250" border="0"></a></center>'},
-					{width: 4, color: 'red', text: '13 x 5'},
-					{width: 4, color: 'accent-lighter', text: '4 x 5'},
-					{width: 4, color: 'success-light', text: '4 x 5'}
+					{width: 4, color: 'info-light', text: '<center><a href="https://www.siteground.com/web-hosting.htm?afbannercode=01aff31ae3f01cbcac6752d914848efb"><img src="https://ua.siteground.com/img/banners/general/static/250x250.jpg" alt="Web Hosting" width="250" height="250" border="0"></a></center>'},
+					{width: 7, color: 'success-light', text: '<center><a href="https://www.siteground.com/web-hosting.htm?afbannercode=01aff31ae3f01cbcac6752d914848efb"><img src="https://images.ctfassets.net/wm1n7oady8a5/GrKoLIRviVS2XN5mRrr9w/f9feff4776b253967c04c548189c0a06/Customsize-Banner-DIY-Banner-UK.png?w=460&h=200&fit=fill" alt="Web Hosting" border="0"></a></center>'},
+					{width: 6, color: 'accent-lighter', text: '4 x 5'},
+					{width: 7, color: 'success-light', text: '4 x 5'}
 				],
 			]
 		}
@@ -163,8 +159,16 @@ export default {
 		}
 	},
 	methods: {
-		select(route){
-			this.$router.push({path: route});
+		select(route, cant){
+			if (cant) {
+				if (this.getCant(cant) > 0) {
+					this.$router.push({path: route})
+				}
+			}else {
+				if (this.cantPrealert > 0) {
+					this.$router.push({path: route})
+				}
+			}
 		},
 		getData(){
 			let me = this
@@ -210,10 +214,10 @@ export default {
 .panel:hover{
 		color: black;
 		-webkit-transition: all 60ms ease-in;
-		-webkit-transform: scale(1.015, 1.015);
-		-webkit-box-shadow: 0px 0px 21px -8px rgba(0,0,0,0.75);
-		-moz-box-shadow: 0px 0px 21px -8px rgba(0,0,0,0.75);
-		box-shadow: 0px 0px 21px -8px rgba(0,0,0,0.75);
+		-webkit-transform: scale(1.003, 1.003);
+		-webkit-box-shadow: 0px 0px 15px -8px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 15px -8px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 15px -8px rgba(0,0,0,0.75);
 	}
 
 .icon-card{

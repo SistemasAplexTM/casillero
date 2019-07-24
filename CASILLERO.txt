@@ -1,0 +1,65 @@
+08. En CASILLERO El casillero no está cambiando el logo de la agencia.---------------------------------------------------------------------   **                                                                         
+09. En CASILLERO revisar los íconos del casillero que no cargan
+----------------------------------------------------------------------------   **
+11. En CASILLERO La letra de las fichas iniciales del casillero se deben ampliar (16 px), no se leen bien.---------------------------------   **                  
+12. En CASILLERO El prealerta  no registra el correo desde el casillero.-------------------------------------------------------------------   **
+13. En CASILLERO El nombre  del usuario en el casillero está quemado como Duvier Marín.----------------------------------------------------   **	
+14. En CASILLERO La imagen de fondo en el perfil no cargó.
+---------------------------------------------------------------------------------   **
+18. En CASILLERO En tránsito no me carga ni el cero----------------------------------------------------------------------------------------   **
+19. En CASILLERO La dirección que muestra de casillero debe ser de la agencia--------------------------------------------------------------
+   **
+16. En CASILLERO Prealerté y el dashboard me sigue saliendo en cero y si le doy click no me carga la tabla---------------------------------   **
+15. En CASILLERO Cambiar el favicon del casillero------------------------------------------------------------------------------------------   **
+24. En CASILLERO La x para cerrar el formulario de prealertas que sea blanca para que se vea-----------------------------------------------
+   **
+17. En CASILLERO No me carga en casillero lo que tengo en casillero------------------------------------------------------------------------
+   **
+23. En CASILLERO Si le doy refrescar estándo en prealerta se queda pegada la carga del sistema 
+	y me pasa con las otras tablas del sistema, se queda cargando----------------------------------------------------------------------   **
+20. En CASILLERO Los contactos adicionales no guardan.
+
+21. En CASILLERO la ciudad sale un número--------------------------------------------------------------------------------------------------
+06. En CASILLERO Que cargue el logo de la agencia en el login de casillero-----------------------------------------------------------------
+
+Link de transportadora local----------------------------------------------------------------------------
+Poner el icono de map maker en la dirección ------------------------------------------------------------
+Actualizar la cantidad al prealertar -------------------------------------------------------------------
+Nombre de la agencia en el TITLE de la página-----------------------------------------------------------
+Poner el icono de casillero rojo y el de transito naranja-----------------------------------------------
+Más angostas las grillas que tienen poca información----------------------------------------------------
+cargando en el botón de prealerta-----------------------------------------------------------------------
+Corregir modal de prealerta en vista para movil---------------------------------------------------------
+Scroll en la vista de Inicio----------------------------------------------------------------------------
+
+18 Julio
+Poner animación hover en el inicio----------------------------------------------------------------------
+
+22 Julio 
+Formulario de pago de facturas--------------------------------------------------------------------------
+Validar si la integración está activada-----------------------------------------------------------------
+Más suaves las animaciones hover------------------------------------------------------------------------
+Quitar la palabra DEMO del title------------------------------------------------------------------------
+Prealertar sea un botón---------------------------------------------------------------------------------
+Quitar botón de fullscreen------------------------------------------------------------------------------
+Quitar "crear prealerta del menu"-----------------------------------------------------------------------
+Cambiar icono de prealertar-----------------------------------------------------------------------------
+Poner "ver " como prefijo en el menú (ver prealertas)---------------------------------------------------
+Ocultar la publicidad en el celular---------------------------------------------------------------------
+Buscar por tracking y no solo por wh--------------------------------------------------------------------
+Si está en 0 en el inicio, que no vaya a la ruta--------------------------------------------------------
+al refrescar se queda cargando
+Mostrar un menú en el celular que se llame promociones (para la publicidad)-----------------------------
+cambiar fondo en el login-------------------------------------------------------------------------------
+
+24 Julio
+Corregir doble scroll en Home---------------------------------------------------------------------------
+Aparece prealerta dos veces en el buscador
+
+
+
+
+
+
+
+

@@ -84,7 +84,8 @@ export default {
 	},
 	computed: {
 		trackingsFiltered() {
-			return this.trackings.filter(({num_warehouse, peso, descripcion}) => (num_warehouse+peso+descripcion).toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
+			return this.trackings.filter(({num_warehouse, descripcion, tracking}) => (num_warehouse+descripcion+tracking)
+			.toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
 		},
 		trackingClass() {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'

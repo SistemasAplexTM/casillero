@@ -54,7 +54,7 @@ const auth = {
 	}
 }
 var agency = getAgency()
-var agencyDesc = 'DEMO'
+var agencyDesc = ' '
 router.beforeEach((to, from, next) => {
 	var title = to.meta.title
 	if (to.params.type) {
@@ -63,7 +63,7 @@ router.beforeEach((to, from, next) => {
 	if (agency) {
 		agencyDesc = agency.descripcion
 	}else{
-		agencyDesc = ' '
+		agencyDesc = ' Casillero'
 	}
 	document.title =   title  + ' - ' + agencyDesc
 	let authrequired = false
@@ -83,7 +83,7 @@ router.beforeEach((to, from, next) => {
 			}
 		} else {
 			if(to.name !== 'login'){
-				window.location.href = '/login'
+				window.location.href = '/login/1'
 				return false
 			}
 			next()
