@@ -96,7 +96,7 @@
   },
   {
     "path": "/invoice",
-    "name": "Facturas",
+    "name": "Pago en Linea",
     "component": "Invoice",
     "meta": {
      "nav": true,

@@ -1,10 +1,10 @@
 <template>
 	<div class="scrollable">
 		<div class="page-header">
-			<h1 class="mb-2">Factura</h1>
+			<h1 class="mb-2">Pago en Línea</h1>
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item :to="{ path: '/' }"><i class="fal fa-home"></i></el-breadcrumb-item>
-				<el-breadcrumb-item>Factura</el-breadcrumb-item>
+				<el-breadcrumb-item>Pago en Línea</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<el-row type="flex" justify="center" v-if="actived">
@@ -12,7 +12,7 @@
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
 						<input type="hidden" name="cmd" value="_xclick">
-						<input type="hidden" name="business" :value="email_agency.email">
+						<input type="hidden" name="business" :value="email_agency">
 
 
 						<strong>Número de Guía: </strong><br>
@@ -27,8 +27,6 @@
 						<input type="hidden" name="no_note" value="1">
 						<input type="hidden" name="currency_code" value="USD">
 						<input type="hidden" name="lc" value="AU">
-						<input type="hidden" name="bn" value="PP-BuyNowBF">
-						<input type="hidden" name="return" value="http://patryexpress.com">
 
 						<br><br>
 						<el-button type="primary" native-type="submit" class="w100" icon="fab fa-paypal">
@@ -49,7 +47,7 @@
 </template>
 
 <script>
-import { getUser, getAgency } from '@/utils/auth'
+import { getUser } from '@/utils/auth'
 import { getPaypal } from '@/api/integrations'
 export default {
 	name: 'Invoice',
@@ -59,7 +57,7 @@ export default {
 			item_number: null,
 			item_name: getUser(),
 			actived: null,
-			email_agency: getAgency()
+			email_agency: null
 		}
 	},
 	mounted(){
@@ -71,6 +69,7 @@ export default {
 			getPaypal(this.item_name.agencia_id).then(({data}) => {
 				if (data.data) {
 					result = JSON.parse(data.data.value)
+					this.email_agency = result.email
 					this.actived = result.actived
 				}
 			}).catch(error => error)

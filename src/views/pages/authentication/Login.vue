@@ -2,18 +2,13 @@
 	<vue-scroll class="login-page align-vertical" id="background" v-bind:style="{ 'background-image': 'url(' + require('../../../assets/images/contenedores-848x450.jpg') + ')' }">
 		<div class="form-wrapper align-vertical-middle">
 			<div class="form-box card-base card-shadow--extraLarge">
-				<img class="image-logo" :src="img" alt="logo"/>
+				<img v-show="img" class="image-logo" :src="img" alt="logo"/>
 				<float-label class="styled">
 					<input v-model="email" type="email" placeholder="Correo" autofocus>
 				</float-label>
 				<float-label class="styled">
 					<input v-model="password" type="password" placeholder="Contraseña">
 				</float-label>
-
-				<!-- <div class="flex">
-					<div class="box grow"><el-checkbox>Remember Me </el-checkbox></div>
-					<div class="box grow text-right"><router-link to="/dashboard">Forgot Password?</router-link></div>
-				</div> -->
 				<br>
 				<el-alert
 					v-show="error"
@@ -27,9 +22,6 @@
 						Entrar
 					</el-button>
 				</div>
-				<!-- <div class="text-center signin-box pt-20">
-					Don't have an account? <a>Sign in</a>
-				</div> -->
 			</div>
 		</div>
 	</vue-scroll>
