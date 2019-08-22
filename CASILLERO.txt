@@ -49,3 +49,6 @@ cambiar fondo en el login-------------------------------------------------------
 24 Julio
 Corregir doble scroll en Home---------------------------------------------------------------------------
 Aparece prealerta dos veces en el buscador
+
+22 Agosto
+Contenido en prealerta (obligatorio)

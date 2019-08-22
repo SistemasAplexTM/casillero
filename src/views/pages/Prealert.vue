@@ -35,7 +35,8 @@
 						<div class="info box grow flex">
 							<div class="name box grow flex column justify-center p-0">
 								<div class="fullname fs-22">{{ t.tracking }}</div>
-								<div class="fs-14 secondary-text">{{ t.instruccion }}</div>
+								<div class="fs-14 secondary-text"> <small>Instrucción: </small> <strong> {{ t.instruccion }} </strong> </div>
+                <div class="fs-14 secondary-text"> <small>Contenido: </small> <strong>{{ t.contenido }}</strong> </div>
 								<div class="fs-14 secondary-text">{{ t.created_at }}</div>
 							</div>
 							<!-- <div class="phone align-vertical p-10"><span class="align-vertical-middle">{{c.date}}</span></div> -->

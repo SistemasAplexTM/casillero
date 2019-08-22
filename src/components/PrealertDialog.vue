@@ -14,6 +14,9 @@
 			  <el-form-item label="Tracking" prop="tracking">
 			    <el-input v-model="ruleForm.tracking"></el-input>
 			  </el-form-item>
+			  <el-form-item label="Contenido" prop="contenido">
+			    <el-input type="textarea" v-model="ruleForm.contenido"></el-input>
+			  </el-form-item>
 			  <el-form-item label="Instrucción" prop="instruccion">
 			    <el-input type="textarea" v-model="ruleForm.instruccion"></el-input>
 			  </el-form-item>
@@ -40,6 +43,7 @@ export default {
 			loading: false,
 			ruleForm: {
         tracking: '',
+        contenido: '',
         instruccion: '',
         consignee_id: '',
 				agencia_id: '',
@@ -47,6 +51,9 @@ export default {
       },
 			rules: {
         tracking: [
+          { required: true, message: 'Campo requerido', trigger: 'blur' }
+        ],
+        contenido: [
           { required: true, message: 'Campo requerido', trigger: 'blur' }
         ],
         instruccion: [
@@ -65,7 +72,7 @@ export default {
 					 this.ruleForm.correo = this.$store.getters.user.correo
 					 setPrealert(this.ruleForm).then(({data}) => {
 						 this.resetForm('ruleForm')
-							this.loading = false
+						 this.loading = false
 						 this.$emit('submitPrealert')
 					 }).catch(error => { console.log(error) })
 				 } else {

@@ -8,9 +8,15 @@
 			<search class="hidden-xs-only"></search>
 		</div>
 		<div class="box-right flex align-center pl-10">
-				<el-button class=" accent-text" @click="dialogvisiblePrealert=true">
-					<i class="fal fa-bell"> </i> Prealertar
-				</el-button>
+			<el-button class=" accent-text" @click="dialogvisiblePrealert=true">
+				<i class="fal fa-bell"> </i> Prealertar
+			</el-button>
+			<el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
+				<notification-box></notification-box>
+			</el-popover>
+			<el-badge :is-dot="true" class="notification-icon-badge">
+				<el-button v-popover:popover icon="fal fa-bell" class="notification-icon"></el-button>
+			</el-badge>
 			<span class="username"><router-link to="/profile">{{ $store.getters.user.po_box }}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">

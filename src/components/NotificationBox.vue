@@ -21,7 +21,7 @@ export default {
 					id: 1,
 					title: 'New order',
 					icon: 'mdi mdi-cart-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
+					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor.',
 					date: 'Just now!'
 				},
 				{

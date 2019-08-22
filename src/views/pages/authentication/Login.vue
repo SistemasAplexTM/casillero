@@ -35,8 +35,8 @@ export default {
 	name: 'Login',
 	data() {
 		return {
-			email: 'admin@admin.com',
-			password: 'admin123',
+			email: '',
+			password: '',
 			error: false,
 			errorMsg: '',
 			loading: false,
@@ -51,10 +51,11 @@ export default {
 			this.loading = true
 			login(this.email, this.password, false).then(({data}) => {
 				 this.$store.commit('setLogin')
-	    this.$router.push({ path: '/' })
+    		 this.$router.push({ path: '/' })
 				 setToken(data.access_token)
 				 setUser(data.user)
 				 setAgency(data.agencia)
+				console.log(data);
 					this.loading = false
    }).catch(error => {
 				 this.error = true
