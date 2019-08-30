@@ -1,5 +1,5 @@
 <template>
-	<vue-scroll class="login-page align-vertical" id="background" v-bind:style="{ 'background-image': 'url(' + require('../../../assets/images/contenedores-848x450.jpg') + ')' }">
+	<vue-scroll class="login-page align-vertical" id="background" v-bind:style="{ 'background-image': 'url(' + require('../../../assets/images/img_login.jpg') + ')' }">
 		<div class="form-wrapper align-vertical-middle">
 			<div class="form-box card-base card-shadow--extraLarge">
 				<img v-show="img" class="image-logo" :src="img" alt="logo"/>
@@ -55,7 +55,6 @@ export default {
 				 setToken(data.access_token)
 				 setUser(data.user)
 				 setAgency(data.agencia)
-				console.log(data);
 					this.loading = false
    }).catch(error => {
 				 this.error = true

@@ -41,6 +41,8 @@ import App from './App.vue'
 import router from './router/'
 import store from './store'
 import i18n_messages from './i18n.json'
+import VueSkeletonLoading from 'vue-skeleton-loading'
+Vue.use(VueSkeletonLoading)
 
 Vue.config.productionTip = false
 

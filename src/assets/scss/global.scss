@@ -8,11 +8,12 @@
 @import 'float-label';
 @import 'vuebar';
 @import 'perfect-scrollbar';
-@import '../fonts/Exo.css';
+// @import '../fonts/Exo.css';
+@import url('https://fonts.googleapis.com/css?family=Exo:300,400,500,600,700,800,900&display=swap');
 
 html, body {
 	font-family: 'Exo', sans-serif;
-	line-height: 1.4;
+	line-height: 1;
 	height: 100%;
 	width: 100%;
 	margin: 0;

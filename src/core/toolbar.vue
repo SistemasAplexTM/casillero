@@ -5,17 +5,17 @@
 				<i class="fal fa-bars"></i>
 			</button>
 
-			<search class="hidden-xs-only"></search>
+			<!-- <search class="hidden-xs-only"></search> -->
 		</div>
 		<div class="box-right flex align-center pl-10">
-			<el-button class=" accent-text" @click="dialogvisiblePrealert=true">
-				<i class="fal fa-bell"> </i> Prealertar
+			<el-button type="primary" size="small" plain class="accent-text" @click="$store.commit('openRightMenu', {active: true, component: 'prealert', title:  'Prealertar', icon: 'bells'})">
+				<i class="fal fa-bells"> </i> Prealertar
 			</el-button>
-			<el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
+			<!-- <el-popover ref="popover" placement="bottom" :width="popoverWidth" trigger="click">
 				<notification-box></notification-box>
-			</el-popover>
-			<el-badge :is-dot="true" class="notification-icon-badge">
-				<el-button v-popover:popover icon="fal fa-bell" class="notification-icon"></el-button>
+			</el-popover> -->
+			<el-badge :value="cantNotification" :max="9" class="notification-icon-badge">
+				<el-button v-popover:popover icon="fal fa-bell" class="notification-icon" @click="$store.commit('openRightMenu', {active: true, component: 'notificationBox', title:  'Notificaciones', icon: 'bells'})"></el-button>
 			</el-badge>
 			<span class="username"><router-link to="/profile">{{ $store.getters.user.po_box }}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
@@ -32,14 +32,16 @@
 				<i class="fal fa-bars"></i>
 			</button>
 		</div>
-		<prealert-dialog :dialogvisible.sync="dialogvisiblePrealert" @submitPrealert="prealert()"></prealert-dialog>
+		<!-- <prealert :dialogvisible.sync="dialogvisiblePrealert" @submitPrealert="prealert()"></prealert> -->
 	</div>
 </template>
 
 <script>
 import NotificationBox from '@/components/NotificationBox'
 import Search from '@/components/Search'
-import PrealertDialog from '@/components/PrealertDialog'
+import Prealert from '@/components/Prealert'
+import { cant } from '@/api/notification'
+import { mapGetters } from 'vuex'
 
 export default {
 	name: 'Toolbar',
@@ -49,10 +51,21 @@ export default {
 			popoverWidth: 300,
 			fullscreen: false,
 			lang: 'us',
-			dialogvisiblePrealert: false
+			dialogvisiblePrealert: false,
 		}
 	},
+	computed: {
+		...mapGetters(['cantNotification'])
+	},
 	methods: {
+		getCantNotification () {
+			cant().then(({data}) => {
+				if (data == 0) {
+					data = null
+				}
+				this.$store.commit('setCantNotification', data)
+			}).catch(error => error)
+		},
 		prealert(){
 			this.dialogvisiblePrealert = false
 			this.$store.commit('setSubmitPrealert', true)
@@ -90,11 +103,12 @@ export default {
 	components: {
 		NotificationBox,
 		Search,
-		PrealertDialog
+		Prealert
 	},
 	mounted() {
 		this.fullscreen = this.$fullscreen.getState()
 		this.resizePopoverWidth();
+		this.getCantNotification()
 		window.addEventListener('resize', this.resizePopoverWidth);
 	},
 	beforeDestroy() {

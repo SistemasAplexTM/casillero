@@ -1,44 +1,102 @@
 <template>
 	<div class="notification-box">
-		<div class="notify" v-for="n in notifications" :key="n.id">
-			<div class="flex">
-				<div class="n-title box grow"><strong><i :class="n.icon"></i> {{n.title}}</strong></div>
-				<div class="n-date">{{n.date}} <i class="mdi mdi-clock"></i></div>
+	 <el-divider/>
+	 <transition-group name="fade" mode="out-in">
+		<div v-if="notifications.length > 0 && !loading" key="full" class="mb-0 flex pointer notification" v-for="n in notifications" :key="n.id">
+			<div class="pt-15 pb-15 pr-15 w-15 text-center danger-text" >
+				<i :style="'color: '+ n.data.color" class="fa-2x" :class="n.data.icon"></i>
 			</div>
-			<div class="n-desc">{{n.desc}}</div>
+			<div class="w-100" @click="select(n)">
+				<h3 class="mb-5 mt-0" :style="'color: '+ n.data.color" v-if="n.data.tracking">{{ n.data.tracking }}</h3>
+				<h3 class="mb-5 mt-0" :style="'color: '+ n.data.color" v-if="n.data.warehouse">{{ n.data.warehouse }}</h3>
+				<h4 class="mb-5 mt-0">{{ n.data.title }}</h4>
+				<p class="mt-5 mb-10 info-text">{{ n.data.desc }}</p>
+				<small class="accent-text">
+					<el-link ><i class="el-icon-view el-icon--right"></i> </el-link>
+					<span class="fr">
+						{{ n.created_at }}
+						<i class="fal fa-clock"></i>
+					</span>
+				</small>
+				<el-divider class="m-0" style="margin: 10px"></el-divider>
+			</div>
 		</div>
-		<div class="see-all">Ver todas las notificaciones</div>
+		</transition-group>
+		<div v-if="notifications.length > 0" @click="check" class="see-all text-center accent-text pointer mt-20">Marcar todo como leído</div>
+			<skeleton-loading v-if="loading" class="">
+				<row v-for="i in 5":key="i" :gutter="{top: '10px', bottom: '10px'}">
+					<column :span="3" :gutter="10">
+						<circle-skeleton></circle-skeleton>
+					</column>
+					<column :span="20" :gutter="8">
+						<square-skeleton :count="3" :boxProperties="{bottom: '10px',height: '15px'}" :style="`width: ${Math.floor(Math.random() * 51) + 70}%;`">
+						</square-skeleton>
+					</column>
+				</row>
+			</skeleton-loading>
+			<transition name="fade" >
+				<div v-if="!loading">
+					<el-row v-if="notifications.length <= 0" :gutter="20" class="m-0 o-050">
+						<el-col :span="24" class="text-center p-50">
+							<h1>No se encontraron notificaciones</h1>
+							<i class="fal fa-bell-slash fa-7x m-a"></i>
+						</el-col>
+					</el-row>
+				</div>
+			</transition>
 	</div>
 </template>
 
 <script>
+import { getNotification, viewedAll } from '@/api/notification'
+
 export default {
 	name: 'NotificationBox',
-	data() {
+	data () {
 		return {
-			notifications: [
-				{
-					id: 1,
-					title: 'New order',
-					icon: 'mdi mdi-cart-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor.',
-					date: 'Just now!'
-				},
-				{
-					id: 2,
-					title: 'New Schedule Realease',
-					icon: 'mdi mdi-calendar',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: '2 Min Ago'
-				},
-				{
-					id: 3,
-					title: 'New message from David',
-					icon: 'mdi mdi-email-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: '30 Min Ago'
-				}
-			]
+			notifications: [],
+			loading: false
+		}
+	},
+	created () {
+		this.get()
+	},
+	methods: {
+		select (item) {
+			if (item.data.warehouse) {
+				this.$store.commit('openRightMenu', {active: true, component: 'trackingDetail', title:  'Detalle de tracking', icon: item.data.icon, data: item.data.warehouse})
+			}
+			if (item.data.tracking) {
+				this.$message({
+          message: item.data.tracking,
+          type: 'success'
+        });
+				// this.$store.commit('openRightMenu', {active: true, component: 'prealert', title:  'Prealertar', icon: 'bells'})
+			}
+		},
+		check () {
+			viewedAll().then(data => {
+				this.get()
+				this.$store.commit('setCantNotification', null)
+				this.$message({
+          message: 'Notificaciones leídas.',
+          type: 'success'
+        });
+			}).catch(error => error)
+		},
+		get () {
+			this.loading = true
+			getNotification().then(({data}) => {
+				this.notifications = data
+				this.loading = false
+			}).catch(error => error)
+		},
+		viewed () {
+			this.loading = true
+			viewedAll().then(({data}) => {
+				this.notifications = data
+				this.loading = false
+			}).catch(error => error)
 		}
 	}
 }
@@ -47,49 +105,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import '../assets/scss/_variables';
+.el-divider {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.notification {
 
-.notification-box {
-	color: $text-color;
-
-	.notify {
-		margin-bottom: 20px;
-		max-height: 70px;
-		overflow: hidden;
-		position: relative;
-
-		&::after {
-			content: '';
-			display: block;
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			width: 100%;
-			height: 20px;
-			box-shadow: 0px -20px 20px -10px $background-color inset;
-		}
-
-		.n-title {
-			text-align: left;
-			padding-right: 10px;
-		}
-		.n-desc {
-			color: transparentize($text-color, 0.5);
-		}
-
-		&:hover {
-			color: $text-color-accent;
-
-			.n-desc {
-				color: transparentize($text-color-accent, 0.5);
-			}
-		}
-	}
-
-	.see-all {
-		&:hover {
-			color: $text-color-accent;
-		}
-	}
+}
+.notification:hover{
+	opacity: 0.7;
 }
 </style>

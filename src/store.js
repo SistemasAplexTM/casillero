@@ -1,4 +1,5 @@
 import { removeToken, removeUser, removeAgency, getUser } from '@/utils/auth'
+import { getAllPrealert, getCantPrealert } from '@/api/prealert'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
@@ -17,13 +18,22 @@ export default new Vuex.Store({
 			roundedCorners: false, //true, false
 			viewAnimation: 'fade-top' // fade-left, fade-right, fade-top, fade-top-in-out, fade-bottom, fade-bottom-in-out, fade, false
 		},
+		rightMenu: {
+      active: false,
+      component: null,
+      title: null,
+      icon: null
+    },
 		splashScreen: true,
 		submitPrealert: false,
 		logged: true,
-		user: getUser()
+		user: getUser(),
+		prealerts: [],
+		cantPrealert: 0,
+		cantNotification: null
 	},
 	mutations: {
-		setLayout(state, payload) {
+		setLayout (state, payload) {
 			if(payload && payload.navPos !== undefined)
 				state.layout.navPos = payload.navPos
 
@@ -42,21 +52,41 @@ export default new Vuex.Store({
 			if(payload && payload.viewAnimation !== undefined)
 				state.layout.viewAnimation = payload.viewAnimation
 		},
-		setLogin(state, payload) {
+		setLogin (state, payload) {
 			state.logged = true
 		},
-		setLogout(state, payload) {
+		setLogout (state, payload) {
 			removeToken()
 			state.layout.navPos = null
 			state.layout.toolbar = null
 			state.logged = false
 		},
-		setSplashScreen(state, payload) {
+		setSplashScreen (state, payload) {
 			state.splashScreen = payload
 		},
-		setSubmitPrealert(state, payload) {
+		setSubmitPrealert (state, payload) {
 			state.submitPrealert = payload
-		}
+		},
+		openRightMenu (state, payload) {
+      state.rightMenu = payload
+    },
+    closeRightMenu (state, payload) {
+      state.rightMenu = {
+        active: false,
+        component: null,
+        title: null,
+        icon: null
+      }
+    },
+    setPrealert (state, payload) {
+      state.prealerts = payload
+    },
+    setCantPrealert (state, payload) {
+      state.cantPrealert = payload
+    },
+    setCantNotification (state, payload) {
+      state.cantNotification = payload
+    },
 	},
 	actions: {
 		logout(){
@@ -64,6 +94,18 @@ export default new Vuex.Store({
 			removeUser()
 			removeAgency()
 			window.location.href = '/'
+		},
+		getPrealert(context){
+			var user = getUser()
+			getAllPrealert(user.agencia_id, user.id).then(({data}) => {
+				context.commit('setPrealert', data.data)
+			}).catch(error => { console.log(error) })
+		},
+		getCantPrealertF(context){
+			var user = getUser()
+			getCantPrealert(user.agencia_id, user.id).then(({data}) => {
+				context.commit('setCantPrealert', data.data)
+			}).catch( error => error)
 		}
 	},
 	getters: {
@@ -99,7 +141,11 @@ export default new Vuex.Store({
 		},
 		user(state, getters) {
 			return state.user
-		}
+		},
+		rightMenu: state => state.rightMenu,
+		prealerts: state => state.prealerts,
+		cantPrealert: state => state.cantPrealert,
+		cantNotification: state => state.cantNotification
 	},
 	plugins: [createPersistedState({paths: ['layout']})],
 	strict: debug

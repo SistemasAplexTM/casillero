@@ -71,6 +71,8 @@ export default {
 					result = JSON.parse(data.data.value)
 					this.email_agency = result.email
 					this.actived = result.actived
+				}else{
+					this.actived = false
 				}
 			}).catch(error => error)
 		}

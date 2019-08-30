@@ -47,7 +47,7 @@
       "layout": "navLeft",
       "searchable": true,
       "tags": ["Página"],
-      "icon": "share-square",
+      "icon": "box",
       "title": "Recibido"
     }
   },

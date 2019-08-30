@@ -14,7 +14,7 @@
 		</el-row>
 		<el-row :gutter="24">
 	   <el-col :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
-							<el-row class="mt-0 w-50" :gutter="15">
+							<el-row class="mt-0" :gutter="15">
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 									<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading" @click="select('tracking/transito/Tránsito', 1)">
 										<div class="ph-10 p-3">
@@ -22,8 +22,8 @@
 												<div class="mr-0 animated fadeInRight" style="margin-right: -5px">
 													<i class="fal fa-plane accent-text fa-5x icon-card r320 warning-text"></i>
 												</div>
-												<div class="box grow  animated fadeInLeft lh-1">
-													<h1 class="m-0 text-truncate">
+												<div class="box grow  animated fadeInLeft lh-1 p-10">
+													<h1 class="m-0 text-truncate font-weight-800">
 														Tránsito
 													</h1>
 													<div class="o-090 mt-0  pt-0 pb-0 font-size-16">
@@ -44,8 +44,8 @@
 												<div class="mr-10 animated fadeInRight">
 													<i class="fal fa-shopping-bag accent-text fa-5x icon-card r100 danger-text"></i>
 												</div>
-												<div class="box grow animated fadeInLeft lh-1">
-													<h1 class="m-0 text-truncate">
+												<div class="box grow animated fadeInLeft lh-1 p-10">
+													<h1 class="m-0 text-truncate font-weight-800">
 														Casillero
 													</h1>
 													<div class="o-090 pt-0 pb-0 font-size-16">
@@ -64,10 +64,10 @@
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-10 animated fadeInRight">
-													<i class="fal fa-hand-receiving accent-text fa-5x icon-card r100"></i>
+													<i class="fal fa-box accent-text fa-5x icon-card r100"></i>
 												</div>
-												<div class="box grow animated fadeInLeft lh-1">
-													<h1 class="m-0 text-truncate">
+												<div class="box grow animated fadeInLeft lh-1 p-10">
+													<h1 class="m-0 text-truncate font-weight-800">
 														Recibido
 													</h1>
 													<div class="o-090 pt-0 pb-0 font-size-16">
@@ -86,10 +86,10 @@
 										<div class="ph-10 p-3">
 											<div class="flex justify-center align-center">
 												<div class="mr-0 animated fadeInRight">
-													<i class="fal fa-bell-school accent-text fa-5x icon-card r100"></i>
+													<i class="fal fa-bells accent-text fa-5x icon-card r100"></i>
 												</div>
-												<div class="box grow animated fadeInLeft lh-1">
-													<h1 class="m-0 text-truncate">
+												<div class="box grow animated fadeInLeft lh-1 p-10">
+													<h1 class="m-0 text-truncate font-weight-800">
 														Prealertado
 													</h1>
 													<div class="o-090 pt-0 pb-0 font-size-16">
@@ -113,8 +113,8 @@
 <script>
 import { getUser, getAgency } from '@/utils/auth'
 import { getAllWarehouse } from '@/api/tracking'
-import { getCantPrealert } from '@/api/prealert'
-import { mapGetters } from 'vuex'
+
+import { mapGetters, mapActions } from 'vuex'
 import Promotions from './Promotion'
 
 export default {
@@ -124,7 +124,7 @@ export default {
 		return {
   	loading: false,
 			cant: [],
-			cantPrealert: 0,
+			// cantPrealert: 0,
 			user: {},
 			agency: {},
 		}
@@ -138,15 +138,19 @@ export default {
 	},
 	mounted() {
 		this.getData()
-		this.getCantPrealertF()
+		// this.getCantPrealertF()
+		this.getCantPrealertF().then(data => {
+        // this.prealerts = data
+    }).catch(error => error)
 	},
-	computed: {...mapGetters(['submitPrealert'])},
+	computed: {...mapGetters(['submitPrealert', 'cantPrealert'])},
 	watch: {
 		submitPrealert(newVal, oldVal){
-			this.getCantPrealertF()
+			// this.getCantPrealertF()
 		}
 	},
 	methods: {
+		...mapActions(['getCantPrealertF']),
 		select(route, cant){
 			if (cant) {
 				if (this.getCant(cant) > 0) {
@@ -166,14 +170,14 @@ export default {
 				me.cant = data.data
 			}).catch( error => error)
 		},
-		getCantPrealertF(){
-			let me = this
-			me.loading = true
-			getCantPrealert(me.agency.id, me.user.id).then(({data}) => {
-				me.loading = false
-				me.cantPrealert = data.data
-			}).catch( error => error)
-		},
+		// getCantPrealertF(){
+		// 	let me = this
+		// 	me.loading = true
+		// 	getCantPrealert(me.agency.id, me.user.id).then(({data}) => {
+		// 		me.loading = false
+		// 		me.cantPrealert = data.data
+		// 	}).catch( error => error)
+		// },
 		getCant(id){
 			let me = this
 			var result = []

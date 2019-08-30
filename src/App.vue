@@ -48,6 +48,8 @@
 			<Footer v-if="footer === 'below'" :position="footer"/>
 		</div>
 
+		<right-menu/>
+
 		<vertical-nav
 			:position="navPos"
 			:collapse-nav="collapseNav"
@@ -74,6 +76,8 @@ import VerticalNav from '@/core/vertical-nav.vue'
 import Toolbar from '@/core/toolbar.vue'
 import Footer from '@/core/footer.vue'
 import LayoutPicker from '@/components/layout-picker.vue'
+import RightMenu from '@/components/custom/RightMenu.vue'
+
 export default {
 	name: 'App',
 	data() {
@@ -140,7 +144,8 @@ export default {
 		VerticalNav,
 		Toolbar,
 		Footer,
-		LayoutPicker
+		LayoutPicker,
+		RightMenu
 	},
 	created() {
 		if(browser.name)

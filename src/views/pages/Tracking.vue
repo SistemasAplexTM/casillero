@@ -7,8 +7,6 @@
 				<el-breadcrumb-item>Trackings</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-		<el-row>
-				<el-col :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
 		<resize-observer @notify="__resizeHanlder" />
 		<div class="search-wrap flex align-center">
 			<el-input v-model="search" placeholder="Buscar">
@@ -16,10 +14,12 @@
 				<p class="m-10" slot="suffix">{{trackingsFiltered.length}} trackings</p>
 			</el-input>
 		</div>
-		<div class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass">
+		<!-- <el-row> -->
+				<el-col class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass" :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
+		<!-- <div > -->
 			<div class="contacts-list box grow scrollable only-y">
 
-								<transition-group name="fade">
+			 	<transition-group name="fade">
 					<div v-if="trackingsFiltered.length > 0" key="full" v-for="t in trackingsFiltered" :key="t.id" class="flex contact border-bottom" @click="openDialog(t)">
 						<div class="star align-vertical p-10 fs-15">
 							<i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i>
@@ -54,32 +54,25 @@
 					</div>
 				</transition-group>
 			</div>
-		</div>
+		<!-- </div> -->
 	</el-col>
-</el-row>
-		<tracking-dialog :dialogvisible.sync="dialogvisible" :data="warehouse" :dataHead="dataHead"></tracking-dialog>
+<!-- </el-row> -->
 	</div>
 </template>
 
 <script>
-import TrackingDialog from '@/components/TrackingDialog'
-import { getAllWarehouse, getWarehouse } from '@/api/tracking'
+import { getAllWarehouse } from '@/api/tracking'
 import { getUser } from '@/utils/auth'
 
 export default {
 	name: 'Tracking',
-	components: {
-		TrackingDialog
-	},
 	data() {
 		return {
 			loading: false,
 			search: '',
-			dialogvisible: false,
 			pageWidth: 0,
 			warehouse: [],
-			trackings: [],
-			dataHead: {}
+			trackings: []
 		}
 	},
 	computed: {
@@ -123,13 +116,7 @@ export default {
 			}).catch( error => error)
 		},
 		openDialog(data) {
-			this.dataHead = data
-			getWarehouse(data.num_warehouse, null).then(({data}) => {
-				this.warehouse = data
-			}).catch( error => error)
-
-			// this.warehouse = data
-			this.dialogvisible = true
+			this.$store.commit('openRightMenu', {active: true, component: 'trackingDetail', title:  'Detalle de tracking', icon: data.icon, data: data.num_warehouse})
 		},
 		setPageWidth() {
 			this.pageWidth = document.getElementById('page-contacts').offsetWidth

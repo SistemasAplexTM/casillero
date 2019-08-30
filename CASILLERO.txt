@@ -52,3 +52,8 @@ Aparece prealerta dos veces en el buscador
 
 22 Agosto
 Contenido en prealerta (obligatorio)
+
+
+
+Tracking en menú lateral
+Notificaciones
