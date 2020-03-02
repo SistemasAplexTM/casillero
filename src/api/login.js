@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
-export function login(username, password, remember) {
+export function login(username, password, agency_id, remember) {
   return request({
     url: '/auth/login',
     method: 'post',
     data: {
       email: username,
       password,
+      agencia_id: agency_id,
       remember_me: remember
     }
   })

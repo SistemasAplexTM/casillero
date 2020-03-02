@@ -68,7 +68,7 @@
 <script>
 import { detect } from 'detect-browser'
 import { getUrlZopim } from '@/api/integrations'
-import { getToken } from '@/utils/auth'
+import { getToken, getUser } from '@/utils/auth'
 const browser = detect()
 // @ is an alias to /src
 import HorizontalNav from '@/core/horizontal-nav.vue'
@@ -125,13 +125,19 @@ export default {
 		},
 		setMeta(){
 			if (getToken()) {
-				getUrlZopim(1).then(({data}) => {
-					var head = document.getElementsByTagName('head')[0];
-					var script = document.createElement('script');
-					script.type = "text/javascript";
-					script.src = data.url;
-					script.src = 'https://v2.zopim.com/?4bgf79NrNomNcX7rm4q57Yub3oajTABu';
-					head.appendChild(script);
+				var user = getUser()
+				getUrlZopim(user.agencia_id).then(({data}) => {
+					if (data.url) {
+						data = JSON.parse(data.url)
+						if (data.actived) {
+							var head = document.getElementsByTagName('head')[0];
+							var script = document.createElement('script');
+							script.type = "text/javascript";
+							script.src = data.zopim_script;
+							// script.src = 'https://v2.zopim.com/?4bgf79NrNomNcX7rm4q57Yub3oajTABu';
+							head.appendChild(script);
+						}
+					}
 				}).catch(error => {console.log(error)})
 			}
 		},

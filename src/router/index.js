@@ -19,27 +19,27 @@ const router = new Router({
 })
 
 function view(name) {
- 	return function (resolve) {
- 		require (['../views/pages/' + name + '.vue' ], resolve);
+	return function (resolve) {
+		require(['../views/pages/' + name + '.vue'], resolve);
 	}
 }
 const l = {
-	contenOnly(){
+	contenOnly() {
 		store.commit('setLayout', layouts.contenOnly)
 	},
-	navLeft(){
+	navLeft() {
 		store.commit('setLayout', layouts.navLeft)
 	},
-	navRight(){
+	navRight() {
 		store.commit('setLayout', layouts.navRight)
 	},
-	navTop(){
+	navTop() {
 		store.commit('setLayout', layouts.navTop)
 	},
-	navBottom(){
+	navBottom() {
 		store.commit('setLayout', layouts.navBottom)
 	},
-	set(layout){
+	set(layout) {
 		store.commit('setLayout', layout)
 	}
 }
@@ -62,34 +62,34 @@ router.beforeEach((to, from, next) => {
 	}
 	if (agency) {
 		agencyDesc = agency.descripcion
-	}else{
+	} else {
 		agencyDesc = ' Casillero'
 	}
-	document.title =   title  + ' - ' + agencyDesc
+	document.title = title + ' - ' + agencyDesc
 	let authrequired = false
-	if(to && to.meta && to.meta.auth){
+	if (to && to.meta && to.meta.auth) {
 		authrequired = true
 	}
 
 	// console.log('authrequired', authrequired, to.name)
 
-	if(authrequired) {
-		if(auth.loggedIn()) {
-			if(to.name === 'login') {
+	if (authrequired) {
+		if (auth.loggedIn()) {
+			if (to.name === 'login') {
 				window.location.href = '/'
 				return false
 			} else {
 				next()
 			}
 		} else {
-			if(to.name !== 'login'){
-				window.location.href = '/login/1'
+			if (to.name !== 'login') {
+				window.location.href = 'login/' + btoa(1)
 				return false
 			}
 			next()
 		}
 	} else {
-		if(auth.loggedIn() && to.name === 'login'){
+		if (auth.loggedIn() && to.name === 'login') {
 			window.location.href = '/'
 			return false
 		} else {
@@ -97,13 +97,13 @@ router.beforeEach((to, from, next) => {
 		}
 	}
 
-	if(to && to.meta && to.meta.layout){
+	if (to && to.meta && to.meta.layout) {
 		l.set(to.meta.layout)
 	}
 })
 
 router.afterEach((to, from) => {
-	setTimeout(()=>{
+	setTimeout(() => {
 		store.commit('setSplashScreen', false)
 	}, 500)
 })

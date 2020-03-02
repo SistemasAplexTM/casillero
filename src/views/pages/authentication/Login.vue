@@ -49,22 +49,24 @@ export default {
 	methods: {
 		Login() {
 			this.loading = true
-			login(this.email, this.password, false).then(({data}) => {
+			var agency_id = atob(this.$route.params.agency_id)
+			login(this.email, this.password, agency_id, false).then(({data}) => {
 				 this.$store.commit('setLogin')
     		 this.$router.push({ path: '/' })
 				 setToken(data.access_token)
 				 setUser(data.user)
 				 setAgency(data.agencia)
 					this.loading = false
-   }).catch(error => {
-				 this.error = true
-					this.loading = false
-				 this.errorMsg = error.errors
-      console.log(error);
-   })
+   		}).catch(error => {
+				this.error = true
+				this.loading = false
+				this.errorMsg = error.errors
+      	console.log(error);
+   		})
 		},
 		getImg(){
-			getLogo(this.$route.params.agency_id).then(({data}) => {
+			var id = atob(this.$route.params.agency_id)
+			getLogo(id).then(({data}) => {
 				this.img = process.env.VUE_APP_ROOT_IMG + '/' + data.data
 			}).catch(error => error)
 		},

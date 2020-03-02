@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getCity() {
+export function getCity(queryString) {
   return request({
-    url: '/getSelectCity',
+    url: '/getSelectCity/' + queryString,
     method: 'get'
   })
 }
