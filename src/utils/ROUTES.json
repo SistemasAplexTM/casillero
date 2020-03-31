@@ -1,5 +1,4 @@
-[
-  {
+[{
     "path": "/",
     "name": "Inicio",
     "component": "Home",
@@ -99,7 +98,7 @@
     "name": "Pago en Linea",
     "component": "Invoice",
     "meta": {
-     "nav": true,
+      "nav": true,
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
@@ -127,7 +126,7 @@
     "name": "Perfil",
     "component": "Profile",
     "meta": {
-     "nav": false,
+      "nav": false,
       "auth": true,
       "layout": "navLeft",
       "searchable": true,
