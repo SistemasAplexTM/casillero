@@ -79,7 +79,8 @@ export default {
       var id = atob(this.$route.params.agency_id);
       getLogo(id)
         .then(({ data }) => {
-          this.img = process.env.VUE_APP_ROOT_IMG + "/" + data.data;
+          this.img = process.env.VUE_APP_ROOT_IMG + "/" + data.data.logo;
+          document.title = 'Casillero ' + data.data.descripcion
         })
         .catch(error => error);
     }
