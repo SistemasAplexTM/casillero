@@ -1,31 +1,35 @@
 <template>
-  <div class="page-contacts flex column" id="page-contacts">
-    <div class="page-header">
+	<div class="page-contacts flex column" id="page-contacts">
+		<div class="page-header">
 			<h1 class="mb-2">Prealertas</h1>
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item :to="{ path: '/' }"><i class="fal fa-home"></i></el-breadcrumb-item>
 				<el-breadcrumb-item>Prealertas</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
-    <resize-observer @notify="__resizeHanlder" />
-    <div class="search-wrap flex align-center">
-      <el-input v-model="search" placeholder="Buscar">
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        <p class="m-10" slot="suffix">{{ prealertsFiltered.length }} prealertas</p>
-        <template slot="append">
-          <el-button type="success" icon="el-icon-plus" circle @click="$store.commit('openRightMenu', {active: true, component: 'prealert', title:  'Prealertar', icon: 'bells'})"></el-button>
-        </template>
-      </el-input>
-    </div>
-   <!-- <el-row> -->
-    <el-col class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass" :xs="24" :sm="24" :md="24" :lg="{span: 14, offset: 5}" :xl="{span: 14, offset: 5}">
-		<!-- <div > -->
+		<resize-observer @notify="__resizeHanlder" />
+		<div class="search-wrap flex align-center">
+			<el-input v-model="search" placeholder="Buscar">
+				<i slot="prefix" class="el-input__icon el-icon-search"></i>
+				<p class="m-10" slot="suffix">{{ prealertsFiltered.length }} prealertas</p>
+				<template slot="append">
+					<el-button type="success" icon="el-icon-plus" circle
+						@click="$store.commit('openRightMenu', { active: true, component: 'prealert', title: 'Prealertar', icon: 'bells' })"></el-button>
+				</template>
+			</el-input>
+		</div>
+		<!-- <el-row> -->
+		<el-col class="card-shadow--small card-base p-0 contacts-root box grow flex gaps" :class="trackingClass"
+			:xs="24" :sm="24" :md="24" :lg="{ span: 14, offset: 5 }" :xl="{ span: 14, offset: 5 }">
+			<!-- <div > -->
 			<div class="contacts-list box grow scrollable only-y">
 
 				<transition-group name="fade">
-					<div v-if="prealertsFiltered.length > 0" key="full" v-for="t in prealertsFiltered" :key="t.id" class="flex contact border-bottom">
+					<div v-if="prealertsFiltered.length > 0" key="full" v-for="t in prealertsFiltered" :key="t.id"
+						class="flex contact border-bottom">
 						<div class="star align-vertical p-10 fs-15">
-       <el-badge class="align-vertical-middle" :value="t.despachar == 0 ? 'Esperar' : 'Despachar'" />
+							<el-badge class="align-vertical-middle"
+								:value="t.despachar == 0 ? 'Esperar' : 'Despachar'" />
 							<!-- <i class="fal fa-badge-check align-vertical-middle" :style="'color:' + t.color" ></i> -->
 						</div>
 						<div class="avatar align-vertical">
@@ -35,8 +39,15 @@
 						<div class="info box grow flex">
 							<div class="name box grow flex column justify-center p-0">
 								<div class="fullname fs-22">{{ t.tracking }}</div>
-								<div class="fs-14 secondary-text"> <small>Instrucción: </small> <strong> {{ t.instruccion }} </strong> </div>
-                <div class="fs-14 secondary-text"> <small>Contenido: </small> <strong>{{ t.contenido }}</strong> </div>
+								<div class="fs-14 secondary-text"> <small>Instrucción: </small> <strong> {{
+									t.instruccion
+								}} </strong> </div>
+								<div class="fs-14 secondary-text"> <small>Contenido: </small> <strong>{{
+									t.contenido
+								}}</strong> </div>
+								<div class="fs-14 secondary-text"> <small>Declarado ($USD): </small> <strong>$ {{
+									t.declarado
+								}}</strong> </div>
 								<div class="fs-14 secondary-text">{{ t.created_at }}</div>
 							</div>
 							<!-- <div class="phone align-vertical p-10"><span class="align-vertical-middle">{{c.date}}</span></div> -->
@@ -56,9 +67,9 @@
 					</div>
 				</transition-group>
 			</div>
-		<!-- </div> -->
-  </el-col>
- <!-- </el-row> -->
+			<!-- </div> -->
+		</el-col>
+		<!-- </el-row> -->
 	</div>
 </template>
 
@@ -68,62 +79,64 @@ import { getAllPrealert } from '@/api/prealert'
 import { getUser } from '@/utils/auth'
 import { mapActions, mapGetters } from 'vuex'
 
-  export default {
-    components: { Prealert },
-    data() {
-     return {
-       loading: false,
-       // prealerts: [],
-       pageWidth: 0,
-       search: ''
-     }
-   },
-   computed: {
-     ...mapGetters(['prealerts']),
+export default {
+	components: { Prealert },
+	data() {
+		return {
+			loading: false,
+			// prealerts: [],
+			pageWidth: 0,
+			search: ''
+		}
+	},
+	computed: {
+		...mapGetters(['prealerts']),
 		prealertsFiltered() {
-			return this.prealerts.filter(({tracking,}) => (tracking).toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
+			return this.prealerts.filter(({ tracking, }) => (tracking).toString().toLowerCase().indexOf(this.search.toString().toLowerCase()) !== -1)
 		},
 		trackingClass() {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
 		},
-    create(){
-  	 return this.$route.params.create
-  	}
-	 },
-   mounted() {
+		create() {
+			return this.$route.params.create
+		}
+	},
+	mounted() {
 		this.setPageWidth()
 		this.getPrealert().then(data => {
-        // this.prealerts = data
-    }).catch(error => error)
-	 },
-    methods: {
-      ...mapActions(['getPrealert']),
-      // getData(){
-      //   let me = this
-  		// 	   me.loading = true
-      //   var user = getUser()
-      //   getAllPrealert(user.agencia_id, user.id).then(({data}) => {
-      //     this.prealerts = data.data
-      //   	me.loading = false
-      //   }).catch(error => { console.log(error) })
-      // },
-      refresh(){
-        this.getData()
-      },
-      setPageWidth() {
-        this.pageWidth = document.getElementById('page-contacts').offsetWidth
-      },
-      __resizeHanlder: _.throttle(function (e) {
-        this.setPageWidth()
-      }, 700)
-    }
-  }
+			// this.prealerts = data
+		}).catch(error => error)
+	},
+	methods: {
+		...mapActions(['getPrealert']),
+		// getData(){
+		//   let me = this
+		// 	   me.loading = true
+		//   var user = getUser()
+		//   getAllPrealert(user.agencia_id, user.id).then(({data}) => {
+		//     this.prealerts = data.data
+		//   	me.loading = false
+		//   }).catch(error => { console.log(error) })
+		// },
+		refresh() {
+			this.getData()
+		},
+		setPageWidth() {
+			this.pageWidth = document.getElementById('page-contacts').offsetWidth
+		},
+		__resizeHanlder: _.throttle(function (e) {
+			this.setPageWidth()
+		}, 700)
+	}
+}
 </script>
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
-.page-header{
-  margin-bottom: 0px !important
+
+.page-header {
+	margin-bottom: 0px !important
 }
+
 .page-contacts {
 	height: 100%;
 	margin: 0 !important;
@@ -138,7 +151,8 @@ import { mapActions, mapGetters } from 'vuex'
 		box-sizing: border-box;
 		margin-bottom: 15px;
 
-		.el-input, .el-button {
+		.el-input,
+		.el-button {
 			width: 100%;
 		}
 	}
@@ -206,6 +220,7 @@ import { mapActions, mapGetters } from 'vuex'
 				.mdi-star {
 					color: #ffd730;
 				}
+
 				.mdi-star-outline {
 					opacity: .5;
 				}
@@ -252,7 +267,7 @@ import { mapActions, mapGetters } from 'vuex'
 				padding: 10px;
 				background-color: lighten($background-color, 20%);
 				border-radius: 5px;
-				box-shadow: 0 4px 5px 0 rgba(40,40,90,.09),0 3px 6px 0 rgba(0,0,0,.065);
+				box-shadow: 0 4px 5px 0 rgba(40, 40, 90, .09), 0 3px 6px 0 rgba(0, 0, 0, .065);
 
 				// .avatar {
 				// 	width: 90px;
@@ -284,6 +299,7 @@ import { mapActions, mapGetters } from 'vuex'
 				max-height: 260px;
 			}
 		}
+
 		&.small {
 			overflow-y: auto;
 			display: block;
@@ -321,6 +337,7 @@ import { mapActions, mapGetters } from 'vuex'
 		.search-wrap {
 			padding: 0;
 		}
+
 		.contacts-list {
 			padding: 0px;
 
@@ -367,6 +384,7 @@ import { mapActions, mapGetters } from 'vuex'
 					padding: 0 30px;
 				}
 			}
+
 			&.small {
 				.contacts-list {
 					padding: 8px;
