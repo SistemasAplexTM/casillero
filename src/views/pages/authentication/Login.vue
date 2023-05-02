@@ -137,7 +137,7 @@ export default {
     }
 
     .image-logo {
-      width: 150px;
+      width: 80px;
       margin: 0px auto;
       margin-bottom: 30px;
       display: block;
