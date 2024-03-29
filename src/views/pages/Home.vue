@@ -13,7 +13,7 @@
 			</el-col>
 		</el-row>
 		<el-row :gutter="24">
-			<el-col :xs="24" :sm="24" :md="24" :lg="{ span: 14, offset: 5 }" :xl="{ span: 14, offset: 5 }">
+			<el-col :xs="24" :sm="24" :md="24" :lg="{ span: 16, offset: 5 }" :xl="{ span: 16, offset: 5 }">
 				<el-row class="mt-0" :gutter="15">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
