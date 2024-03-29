@@ -8,10 +8,10 @@
       <div class="form-box card-base card-shadow--extraLarge">
         <img v-show="img" class="image-logo" :src="img" alt="logo" />
         <float-label class="styled">
-          <input v-model="email" type="email" placeholder="Correo" autofocus />
+          <input v-model="email" type="email" placeholder="Correo" autofocus @keyup.enter="Login" />
         </float-label>
         <float-label class="styled">
-          <input v-model="password" type="password" placeholder="Contraseña" />
+          <input v-model="password" type="password" placeholder="Contraseña" @keyup.enter="Login" />
         </float-label>
         <br />
         <el-alert
@@ -137,7 +137,7 @@ export default {
     }
 
     .image-logo {
-      width: 80px;
+      width: 150px;
       margin: 0px auto;
       margin-bottom: 30px;
       display: block;
