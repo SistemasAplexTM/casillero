@@ -1,3 +1,11 @@
+2024-04-11
+- Mostrar en los datos de informacion en la parte arriba de los botones de transito, casillero y otros.. la direccion 
+	de el casillero del cliente y no su direccion personal.. direccion agencia
+- Poder eliminar y editar un prealerta.
+- Revisar por que no se quitan los estatus de transito cuando ya estan en recibido.
+- En casillero cuando voy a crear un casillero en la modal, que la pestana a mostrar (prealerta) sea la del tracking y no la del historial
+
+
 08. En CASILLERO El casillero no est� cambiando el logo de la agencia.---------------------------------------------------------------------   **
 09. En CASILLERO revisar los �conos del casillero que no cargan----------------------------------------------------------------------------   **
 11. En CASILLERO La letra de las fichas iniciales del casillero se deben ampliar (16 px), no se leen bien.---------------------------------   **
