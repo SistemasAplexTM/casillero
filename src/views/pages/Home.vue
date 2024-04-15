@@ -6,7 +6,7 @@
 				<h2 class="m-0 font-weight-900 accent-text">{{ user.nombre_full }}</h2>
 				<h3 class="m-0">
 					<i class="fal fa-map-marker-alt"></i>
-					{{ principalAgency.direccion }}
+					{{ principalAgency.direccion }} - {{ principalAgency.city.nombre}}
 				</h3>
 				<!-- <p class="m-0 font-weight-400" >Miami, FL, 33166</p> -->
 				<h2 class="m-5 font-weight-900 accent-text">{{ user.po_box }}</h2>
