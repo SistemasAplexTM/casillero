@@ -37,14 +37,14 @@
 
 <script>
 import { login } from "@/api/login";
-import { setToken, setUser, setAgency } from "@/utils/auth";
+import { setToken, setUser, setAgency, setPrincipalAgency } from "@/utils/auth";
 import { getLogo } from "@/api/login";
 export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: "",
+      email: (process.env.VUE_APP_ROOT_API === 'http://localhost:8000/api') ? "jhonnyalejo2212@gmail.com" : "",
+      password: (process.env.VUE_APP_ROOT_API === 'http://localhost:8000/api') ? "admin123" : "",
       error: false,
       errorMsg: "",
       loading: false,
@@ -64,8 +64,9 @@ export default {
           setToken(data.access_token);
           setUser(data.user);
           setAgency(data.agencia);
+          setPrincipalAgency(data.agenciaPrincipal);
           this.loading = false;
-          location.reload();
+            location.reload();
           // this.$router.push({ path: "/" });
         })
         .catch(error => {

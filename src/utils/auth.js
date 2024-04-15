@@ -1,6 +1,7 @@
 const Token = 'token'
 const User = 'user'
 const Agency = 'agency'
+const PrincipalAgency = 'principal_agency'
 
 export function getToken() {
   return sessionStorage.getItem(Token)
@@ -38,4 +39,17 @@ export function setAgency(agency) {
 
 export function removeAgency() {
   return sessionStorage.removeItem(Agency)
+}
+
+export function getPrincipalAgency() {
+  var data = sessionStorage.getItem(PrincipalAgency)
+  return JSON.parse(data)
+}
+
+export function setPrincipalAgency(principal_agency) {
+  sessionStorage.setItem(PrincipalAgency, principal_agency)
+}
+
+export function removePrincipalAgency() {
+  return sessionStorage.removeItem(PrincipalAgency)
 }

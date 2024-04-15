@@ -6,7 +6,7 @@
 				<h2 class="m-0 font-weight-900 accent-text">{{ user.nombre_full }}</h2>
 				<h3 class="m-0">
 					<i class="fal fa-map-marker-alt"></i>
-					{{ agency.direccion }}
+					{{ principalAgency.direccion }}
 				</h3>
 				<!-- <p class="m-0 font-weight-400" >Miami, FL, 33166</p> -->
 				<h2 class="m-5 font-weight-900 accent-text">{{ user.po_box }}</h2>
@@ -17,7 +17,7 @@
 				<el-row class="mt-0" :gutter="15">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
-							@click="select('tracking/transito/Tránsito', 1)">
+							@click="select('tracking/transito/Tránsito', [1,33,35,36])">
 							<div class="ph-10 p-3">
 								<div class="flex justify-center align-center">
 									<div class="mr-0 animated fadeInRight" style="margin-right: -5px">
@@ -33,7 +33,7 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text">{{ getCant(1) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text">{{ getCant([1,33,35,36]) }}</h1>
 									</div>
 								</div>
 							</div>
@@ -41,7 +41,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
-							@click="select('tracking/2/Casillero', 2)">
+							@click="select('tracking/2,34/Casillero', [2, 34])">
 							<div class="ph-10 p-3">
 								<div class="flex justify-center align-center">
 									<div class="mr-10 animated fadeInRight">
@@ -57,7 +57,7 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 danger-text">{{ getCant(2) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 danger-text">{{ getCant([2, 34]) }}</h1>
 									</div>
 								</div>
 							</div>
@@ -65,7 +65,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
-							@click="select('tracking/7/Recibido', [7, 33])">
+							@click="select('tracking/7/Recibido', [7])">
 							<div class="ph-10 p-3">
 								<div class="flex justify-center align-center">
 									<div class="mr-10 animated fadeInRight">
@@ -80,7 +80,7 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 accent-text">{{ getCant([7, 33]) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 accent-text">{{ getCant([7]) }}</h1>
 									</div>
 								</div>
 							</div>
@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { getUser, getAgency } from '@/utils/auth'
+import { getUser, getAgency, getPrincipalAgency } from '@/utils/auth'
 import { getAllWarehouse } from '@/api/tracking'
 
 import { mapGetters, mapActions } from 'vuex'
@@ -134,10 +134,12 @@ export default {
 			// cantPrealert: 0,
 			user: {},
 			agency: {},
+			principalAgency: {},
 		}
 	},
 	created() {
 		this.agency = getAgency()
+		this.principalAgency = getPrincipalAgency()
 		this.user = this.$store.getters.user
 		setTimeout(function () {
 			this.loading = false
@@ -190,12 +192,12 @@ export default {
 			var result = []
 			if (Array.isArray(id)) {
 				let resultSum =0
-				if (!id.includes(2) && !id.includes(7) && !id.includes(33)) {
+				if (!id.includes(2) && !id.includes(7) && !id.includes(33) && !id.includes(1)) {
 					if (me.cant.length > 0) {
 						result.cant = 0
 						me.cant.forEach(function (element) {
 							if (element.status_id != 7 && element.status_id != 2 && element.status_id != 33) {
-								result.cant += element.cant
+								resultSum += element.cant
 							}
 						});
 					}else {

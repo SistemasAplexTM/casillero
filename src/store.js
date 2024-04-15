@@ -1,4 +1,4 @@
-import { removeToken, removeUser, removeAgency, getUser } from '@/utils/auth'
+import { removeToken, removeUser, removeAgency, removePrincipalAgency, getUser, getAgency, getPrincipalAgency } from '@/utils/auth'
 import { getAllPrealert, getCantPrealert } from '@/api/prealert'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -28,6 +28,8 @@ export default new Vuex.Store({
 		submitPrealert: false,
 		logged: true,
 		user: getUser(),
+		agency: getAgency(),
+		principalAgency: getPrincipalAgency(),
 		prealerts: [],
 		cantPrealert: 0,
 		cantNotification: null
@@ -90,10 +92,12 @@ export default new Vuex.Store({
 	},
 	actions: {
 		logout(){
+			var agency = getAgency()
 			removeToken()
 			removeUser()
 			removeAgency()
-			window.location.href = '/'
+			removePrincipalAgency()
+			window.location.href = '/login/'+ btoa(agency.id)
 		},
 		getPrealert(context){
 			var user = getUser()

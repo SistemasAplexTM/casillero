@@ -110,7 +110,7 @@ export default {
 			let me = this
 			me.loading = true
 			var user = getUser()
-			getAllWarehouse(user.id, me.$route.params.status + ',33').then(({data}) => {
+			getAllWarehouse(user.id, me.$route.params.status).then(({data}) => {
 				this.trackings = data.data
 				me.loading = false
 			}).catch( error => error)
