@@ -37,6 +37,7 @@ export default {
 	},
 	methods: {
 		goto(index, indexPath) {
+			console.log(index);
 			if(index.charAt(0) === '/') {
 				this.$router.push(index)
 				this.$emit('push-page', {page:index})

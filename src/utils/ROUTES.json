@@ -40,7 +40,7 @@
   {
     "path": "/received",
     "name": "Ver Recibido",
-    "redirect": "tracking/7/Recibido",
+    "redirect": "tracking/7,33/Recibido",
     "meta": {
       "auth": true,
       "layout": "navLeft",

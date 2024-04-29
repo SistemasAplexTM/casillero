@@ -17,7 +17,7 @@
 				<el-row class="mt-0" :gutter="15">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
-							@click="select('tracking/transito/Tránsito', [1,33,35,36])">
+							@click="select('tracking/transito/Tránsito', [1,35, 33])">
 							<div class="ph-10 p-3">
 								<div class="flex justify-center align-center">
 									<div class="mr-0 animated fadeInRight" style="margin-right: -5px">
@@ -33,7 +33,7 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text">{{ getCant([1,33,35,36]) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text">{{ getCant([1,35]) }}</h1>
 									</div>
 								</div>
 							</div>
@@ -65,7 +65,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<div class="card-base card-shadow--small mb-10 pointer panel" v-loading="loading"
-							@click="select('tracking/7/Recibido', [7])">
+							@click="select('tracking/7,33/Recibido', [7, 33])">
 							<div class="ph-10 p-3">
 								<div class="flex justify-center align-center">
 									<div class="mr-10 animated fadeInRight">
@@ -80,7 +80,7 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 accent-text">{{ getCant([7]) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 accent-text">{{ getCant([7, 33]) }}</h1>
 									</div>
 								</div>
 							</div>
