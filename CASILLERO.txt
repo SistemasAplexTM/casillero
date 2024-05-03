@@ -5,6 +5,10 @@
 - Revisar por que no se quitan los estatus de transito cuando ya estan en recibido.
 - En casillero cuando voy a crear un casillero en la modal, que la pestana a mostrar (prealerta) sea la del tracking y no la del historial
 
+NDI=
+naidnat@hotmail.com
+3134604341
+
 davidj.djn@gmail.com
 0987548635
 
