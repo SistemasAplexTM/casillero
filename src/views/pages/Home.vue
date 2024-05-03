@@ -33,7 +33,8 @@
 										</div>
 									</div>
 									<div class="box">
-										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text">{{ getCant([1,35,2,19]) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text" v-if="agency.id == 35">{{ getCant([1,35,19]) }}</h1>
+										<h1 class="h-big m-0 ml-10 font-weight-900 warning-text" v-else>{{ getCant([1,35,2,19]) }}</h1>
 									</div>
 								</div>
 							</div>
