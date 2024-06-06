@@ -17,7 +17,7 @@
           <el-input v-model="ruleForm.tracking"></el-input>
         </el-form-item>
         <el-form-item label="Valor declarado ($ USD)" prop="declarado">
-          <el-input-number v-model="ruleForm.declarado" min="0"></el-input-number>
+          <el-input-number v-model="ruleForm.declarado" :min="0"></el-input-number>
         </el-form-item>
         <el-form-item label="Contenido" prop="contenido">
           <el-input type="textarea" v-model="ruleForm.contenido"></el-input>
@@ -27,6 +27,15 @@
         </el-form-item>
         <el-form-item label="Despachar" prop="despachar">
           <el-switch v-model="ruleForm.despachar"></el-switch>
+        </el-form-item>
+        <el-form-item label="Factura" prop="invoice">
+          <el-upload ref="upload" action="#" :on-change="handleFileChange" :before-upload="beforeUpload"
+            :file-list="ruleForm.invoice" :auto-upload="false" accept=".pdf">
+            <el-button size="small" type="primary" icon="el-icon-upload">Clic para
+              subir archivo</el-button>
+            <div slot="tip" class="el-upload__tip">Solo archivos con un tamaño menor
+              de 1 MB</div>
+          </el-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')" :loading="loading">Aceptar</el-button>
@@ -43,7 +52,7 @@ import { setPrealert } from '@/api/prealert'
 
 export default {
   name: 'Prealert',
-  props: ['data', 'dialogvisible'],
+  // props: ['data', 'dialogvisible'],
   data() {
     return {
       loading: false,
@@ -54,7 +63,8 @@ export default {
         instruccion: '',
         consignee_id: '',
         agencia_id: '',
-        despachar: false
+        despachar: false,
+        invoice: [],
       },
       rules: {
         tracking: [
@@ -69,31 +79,70 @@ export default {
         instruccion: [
           { required: true, message: 'Campo requerido', trigger: 'blur' }
         ]
-      }
+      },
+      fileList: [],
+      // headersUpload: {
+      //   'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr("content"),
+      // },
+      agencyId: this.$store.getters.user.agencia_id
     }
   },
   methods: {
+    handleFileChange(file, fileList) {
+      console.log('file: ',fileList[0]);
+      this.ruleForm.invoice = fileList
+    },
+    beforeUpload(file) {
+      const isPDF = file.type === 'application/pdf';
+      if (!isPDF) {
+        this.$message.error('Solo se pueden subir archivos en formato PDF');
+      }
+      return isPDF;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `El límite es 1 archivo, haz cargado ${fileList.length} archivo esta vez`
+      );
+    },
     submitForm(formName) {
+      let me = this
       this.loading = true
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.ruleForm.consignee_id = this.$store.getters.user.id
           this.ruleForm.agencia_id = this.$store.getters.user.agencia_id
           this.ruleForm.correo = this.$store.getters.user.correo
-          setPrealert(this.ruleForm).then(({ data }) => {
-            if (data.message) {
-              this.$message.error(data.message);
-            } else {
+
+          const formData = new FormData();
+          formData.append('tracking', this.ruleForm.tracking);
+          formData.append('declarado', this.ruleForm.declarado);
+          formData.append('contenido', this.ruleForm.contenido);
+          formData.append('instruccion', this.ruleForm.instruccion);
+          formData.append('consignee_id', this.ruleForm.consignee_id);
+          formData.append('agencia_id', this.ruleForm.agencia_id);
+          formData.append('despachar', this.ruleForm.despachar);
+          formData.append('correo', this.ruleForm.correo);
+          
+          if (this.ruleForm.invoice.length > 0) {
+            formData.append('file', this.ruleForm.invoice[0].raw);
+          }
+          console.log('FormData: ', formData);
+          setPrealert(formData).then(({ data }) => {
+            console.log(data);
+            if (data.code == 200) {
+              this.$message.success(data.message);
               this.resetForm('ruleForm')
               this.$emit('submitPrealert')
               this.$store.dispatch('getPrealert')
               this.$store.dispatch('getCantPrealertF')
+            } else {
+              this.$message.error(data.message);
             }
-            this.loading = false
+            me.loading = false
           }).catch(error => { console.log(error) })
         } else {
+          me.loading = false
           console.log('error submit!!');
-          this.loading = false
           return false;
         }
       });
