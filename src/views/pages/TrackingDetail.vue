@@ -59,17 +59,27 @@
 											{{ tracking.codigo }}
 										</div>
 									</template>
-									<el-row :gutter="20">
+									<el-row :gutter="20" v-loading="loadingTracking">
 										<el-col :span="12" class="br">
 											LLEGADA A LA BODEGA:
 											<h3 class="m-0">{{ tracking.created_at }}</h3>
-											<el-upload ref="upload" action="#" :on-change="handleFileChange" :before-upload="beforeUpload"
-												:file-list="invoice" :auto-upload="false" accept=".pdf" :on-success="handleFileUpload">
-												<el-button size="small" type="primary" icon="el-icon-upload">Clic para
-													subir factura</el-button>
-												<div slot="tip" class="el-upload__tip">Solo archivos con un tamaño menor
-													de 1 MB</div>
-											</el-upload>
+											<div class="file-invoice">
+												<el-upload ref="upload" v-if="tracking.url == '' | tracking.url == null" action="" :on-change="handleFileChange"
+													:before-upload="beforeUpload" :file-list="invoice" :auto-upload="true" accept=".pdf"
+													:http-request="handleFileUpload">
+													<el-button size="small" type="primary" icon="el-icon-upload">Clic para
+														subir factura</el-button>
+													<div slot="tip" class="el-upload__tip">Solo archivos con un tamaño menor
+														de 1 MB</div>
+												</el-upload>
+												<div class="file-text" v-else>
+													<a :href="tracking.url" :download="tracking.name_old" target="_blank"><i
+															class="el-icon-download"></i>
+														{{ tracking.name_old }}</a>
+													<!-- <el-button class="file-btn-delete" size="mini" type="danger" round><i class="el-icon-delete"></i> Eliminar
+														archivo</el-button> -->
+												</div>
+											</div>
 										</el-col>
 										<el-col :span="12">
 											CONTENIDO:
@@ -131,16 +141,22 @@ export default {
 			invoice: [],
 			fileList: [],
 			trackingId: null,
+			showFileUpload: true,
+			urlInvoice: null,
+			nameInvoice: null,
+			loadingTracking: true,
 		}
 	},
 	mounted() {
 		this.get()
 	},
 	methods: {
-		handleFileUpload() {
+		handleFileUpload(file) {
+			this.loadingTracking = true
 			const formData = new FormData();
-			const encodedAgencyId = Buffer.from(this.agencyId).toString('base64');
-			formData.append('agencyId', encodedAgencyId);
+			// Encode the String
+			var agencyId = btoa(this.agencyId);
+			formData.append('agencyId', agencyId);
 
 			// formData.append('agencyId', this.agencyId);
 			formData.append('module_id', 20); // recibo de casillero 'tracking'
@@ -149,17 +165,16 @@ export default {
 			if (this.invoice.length > 0) {
 				formData.append('file', this.invoice[0].raw); // Agregar el archivo al FormData
 			}
-
-			console.log('FormData: ', formData);
-			// uploadFile(encodedAgencyId,formData).then(({ data }) => {
-			// 	console.log(data);
-			// 	if (data.code == 200) {
-			// 		this.$message.success(data.message);
-			// 	} else {
-			// 		this.$message.error(data.message);
-			// 	}
-			// 	me.loading = false
-			// }).catch(error => { console.log(error) })
+			uploadFile(agencyId, formData).then(({ data }) => {
+				console.log(data);
+				if (data.code == 200) {
+					this.get();
+					this.$message.success(data.message);
+				} else {
+					this.loadingTracking = false
+					this.$message.error(data.message);
+				}
+			}).catch(error => { console.log(error) })
 		},
 		handleFileChange(file, fileList) {
 			console.log('file: ', fileList[0]);
@@ -178,7 +193,7 @@ export default {
 			);
 		},
 		handleChangeCollapse(val) {
-			console.log('Collapse vars: ',val);
+			console.log('Collapse vars: ', val);
 			this.trackingId = val
 		},
 		trackingInWH(tracking) {
@@ -189,12 +204,14 @@ export default {
 		},
 		get() {
 			getWarehouse(this.data, null).then(({ data }) => {
+				console.log('Track: ', data);
 				this.trackings = data.trackings
 				this.status = data.data
 				if (data.data.length > 0) {
 					this.warehouse = data.data[0]
 				}
 				this.loading = false
+				this.loadingTracking = false
 			}).catch(error => error)
 		}
 	}
@@ -202,6 +219,16 @@ export default {
 </script>
 
 <style lang="scss" scope>
+.file-invoice {
+	margin-top: 20px;
+
+	.file-text {
+		.file-btn-delete {
+			margin-top: 20px;
+		}
+	}
+}
+
 .el-tabs__header {
 	margin-bottom: 0
 }
