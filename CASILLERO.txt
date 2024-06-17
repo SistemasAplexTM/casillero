@@ -1,3 +1,7 @@
+2024-06-17
+- agregar boton de subir factura en los trackings.
+
+
 2024-04-11
 - *** Mostrar en los datos de informacion en la parte arriba de los botones de transito, casillero y otros.. la direccion 
 	de el casillero del cliente y no su direccion personal.. direccion agencia

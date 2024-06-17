@@ -15,3 +15,12 @@ export function getWarehouse(warehouse, status_id) {
     method: 'get'
   })
 }
+
+export function uploadFile(agencyId, data) {
+  var url = '/prealerta/' + agencyId + '/uploadFile'
+  return request({
+    url,
+    method: 'post',
+    data
+  })
+}

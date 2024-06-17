@@ -48,7 +48,7 @@ export default {
       if(screen.width <= 768) {
         return '100%'
       } else {
-        return '25%'
+        return '37%'
       }
     }
  },
