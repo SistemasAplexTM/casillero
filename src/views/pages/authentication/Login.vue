@@ -14,6 +14,9 @@
           <input v-model="password" type="password" placeholder="Contraseña" @keyup.enter="Login" />
         </float-label>
         <br />
+        <el-link type="primary" icon="el-icon-key" @click="goToForgotPassword">¿Olvidaste tu contraseña?</el-link>
+        <br />
+        <br />
         <el-alert
           v-show="error"
           title="Error al iniciar sesión"
@@ -85,6 +88,9 @@ export default {
           document.title = 'Casillero ' + data.data.descripcion
         })
         .catch(error => error);
+    },
+    goToForgotPassword() {
+      this.$router.push({ path: '/forgot-password/'+this.$route.params.agency_id });
     }
   }
 };

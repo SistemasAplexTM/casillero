@@ -169,16 +169,6 @@
     }
   },
   {
-    "path": "/forgot-password",
-    "name": "forgot-password",
-    "component": "ForgotPassword",
-    "meta": {
-      "nav": false,
-      "layout": "contenOnly"
-    }
-  },
-
-  {
     "path": "*",
     "name": "not-found",
     "component": "NotFound",
