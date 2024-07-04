@@ -4,10 +4,10 @@
 		<div class="form-wrapper align-vertical-middle">
 			<div class="form-box card-base card-shadow--extraLarge">
 				<img v-show="img" class="image-logo" :src="img" alt="logo" />
-				<el-alert title="Ingresa tu email para recuperar tu contraseña" type="info" show-icon>
+				<el-alert title="Ingresa tu email para recuperar tu contraseña" type="info" show-icon :closable="false">
 				</el-alert>
 				<float-label class="styled">
-					<input type="email" placeholder="E-mail" v-model="email">
+					<input ref="email" type="email" placeholder="E-mail" v-model="email">
 				</float-label>
 
 				<div class="flex text-center center pt-20 pb-10">
@@ -42,16 +42,40 @@ export default {
 	methods: {
 		sendEmailForgotPassword() {
 			let me = this
-			sendPasswordReset({
-				"email": me.email,
-				"agencyId": this.$route.params.agency_id
-			}).then(({data}) => {
-				console.log("data:", data);
-			}).catch(function (error) {
-          me.loading = false;
-          // this.$message.error('Error registrar cliente.')
-          console.log(error);
-        });
+			me.loading = true;
+			if (me.email == "") {
+				me.$message({
+					message: 'Atención, debe ingresar un email valido.',
+					type: 'warning'
+				});
+				this.$nextTick(() => this.$refs.email.focus());
+				me.loading = false;
+			} else {
+				sendPasswordReset({
+					"email": me.email,
+					"agencyId": this.$route.params.agency_id
+				}).then(({ data }) => {
+					if (data.code === 200) {
+						me.$swal
+							.fire({
+								title: "Envio exitoso!",
+								text: "Se ha enviado un correo electrónico para la recuperación de tu contraseña",
+								icon: "success",
+							}).then((result) => {
+								if (result.isConfirmed) {
+									this.$router.push({ path: '/login/' + this.$route.params.agency_id });
+								}
+							});
+					} else {
+						me.$message.error('Error:' + data.message)
+					}
+					me.loading = false;
+				}).catch(function (error) {
+					console.log('Error: ', error);
+					me.loading = false;
+					me.$message.error('Error:' + error)
+				});
+			}
 		},
 		goToLogin() {
 			this.$router.push({ path: '/login/' + this.$route.params.agency_id });
@@ -79,16 +103,16 @@ export default {
 }
 
 #background::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: -1;
-  // background-color: rgba(0,0,0,0.10);
-  // filter:brightness(0.1);
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: -1;
+	// background-color: rgba(0,0,0,0.10);
+	// filter:brightness(0.1);
 }
 
 .forgot-password-page {

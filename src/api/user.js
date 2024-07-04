@@ -40,7 +40,15 @@ export function sendPasswordReset(data) {
 
 export function validateToken(data) {
   return request({
-    url: '/auth/validateToken/',
+    url: '/auth/password/validate-token',
+    method: 'post',
+    data
+  })
+}
+
+export function updatePassword(data) {
+  return request({
+    url: '/auth/password/reset',
     method: 'post',
     data
   })
