@@ -34,11 +34,15 @@ export default {
 			img: "",
 			email: "",
 			loading: false,
+			currentUrl: ''
 		}
 	},
 	created() {
 		this.getImg();
 	},
+	mounted() {
+    this.currentUrl = this.getCurrentUrl();
+  },
 	methods: {
 		sendEmailForgotPassword() {
 			let me = this
@@ -53,7 +57,8 @@ export default {
 			} else {
 				sendPasswordReset({
 					"email": me.email,
-					"agencyId": this.$route.params.agency_id
+					"agencyId": me.$route.params.agency_id,
+					"url": me.currentUrl
 				}).then(({ data }) => {
 					if (data.code === 200) {
 						me.$swal
@@ -89,6 +94,15 @@ export default {
 				})
 				.catch(error => error);
 		},
+		getCurrentUrl() {
+      const protocol = window.location.protocol;
+      const host = window.location.host;
+      const path = this.$route.fullPath;
+
+      // const fullUrl = `${protocol}//${host}${path}`;
+      const fullUrl = `${protocol}//${host}`;
+      return fullUrl;
+    }
 	}
 }
 </script>

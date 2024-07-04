@@ -8,7 +8,8 @@
 				</el-alert>
 				<el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" class="form-password">
 					<el-form-item prop="password">
-						<el-input v-model="ruleForm.password" :min="8" placeholder="Contraseña" show-password autocomplete="off"></el-input>
+						<el-input v-model="ruleForm.password" :min="8" placeholder="Contraseña" show-password
+							autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="confirm_password">
 						<el-input v-model="ruleForm.confirm_password" placeholder="Confirma la contraseña" show-password
@@ -39,8 +40,8 @@ export default {
 			if (value === '') {
 				callback(new Error('Por favor, ingresa una contraseña'));
 			} else if (value.length < 8) {
-        callback(new Error("Necesitas 8 caracteres como minimo"));
-      } else {
+				callback(new Error("Necesitas 8 caracteres como minimo"));
+			} else {
 				if (this.ruleForm.confirm_password !== '') {
 					this.$refs.ruleForm.validateField('confirm_password');
 				}
@@ -64,6 +65,7 @@ export default {
 				password: '',
 				confirm_password: '',
 				agencyId: this.$route.params.agency_id,
+				token: this.$route.params.token
 			},
 			rules: {
 				password: [
@@ -123,17 +125,36 @@ export default {
 										this.$router.push({ path: '/login/' + this.$route.params.agency_id });
 									}
 								});
-						}else{
-							me.$message.error('Error:' + data.message)
+						} else {
+							me.$message.error('Error: ' + data.message)
 						}
-						me.loadingPanel = false;
-					}).catch(function (error) {
-						console.log('Error: ', error);
-						me.loadingPanel = false;
-						me.$message.error('Error:' + error)
+						me.loading = false;
+					}).catch(error => {
+						me.loading = false;
+						if (error.response) {
+							me.$message.error('Error: ' + error.response.data.message)
+							// La solicitud fue hecha y el servidor respondió con un código de estado
+							// que está fuera del rango de 2xx
+							// console.log('Error response:', error.response.data);
+							// console.log('Error status:', error.response.status);
+							// console.log('Error headers:', error.response.headers);
+
+							// if (error.response.status === 401) {
+							// 	console.error('No autorizado. Redirigiendo a la página de login...');
+							// 	// Puedes redirigir al usuario a la página de login o mostrar un mensaje de error
+							// }
+						} else if (error.request) {
+							// La solicitud fue hecha pero no hubo respuesta
+							console.log('Error request: ', error.request);
+						} else {
+							// Algo sucedió al configurar la solicitud que provocó un error
+							console.log('Error message: ', error.message);
+						}
+						console.log('Error config: ', error.config);
 					});
 				} else {
 					me.$message.error('Por favor, completa el formulario')
+					me.loading = false;
 					return false;
 				}
 			});
