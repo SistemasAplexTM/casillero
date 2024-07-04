@@ -26,6 +26,7 @@
 
 <script>
 import { getLogo } from "@/api/login";
+import { sendPasswordReset } from "@/api/user";
 export default {
 	name: 'ForgotPassword',
 	data() {
@@ -41,7 +42,7 @@ export default {
 	methods: {
 		sendEmailForgotPassword() {
 			let me = this
-			find({
+			sendPasswordReset({
 				"email": me.email,
 				"agencyId": this.$route.params.agency_id
 			}).then(({data}) => {
