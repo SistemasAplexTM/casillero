@@ -75,11 +75,29 @@ export default {
 						me.$message.error('Error:' + data.message)
 					}
 					me.loading = false;
-				}).catch(function (error) {
-					console.log('Error: ', error);
-					me.loading = false;
-					me.$message.error('Error:' + error)
-				});
+				}).catch(error => {
+						me.loading = false;
+						if (error.response) {
+							me.$message.error('Error: ' + error.response.data.message)
+							// La solicitud fue hecha y el servidor respondió con un código de estado
+							// que está fuera del rango de 2xx
+							// console.log('Error response:', error.response.data);
+							// console.log('Error status:', error.response.status);
+							// console.log('Error headers:', error.response.headers);
+
+							// if (error.response.status === 401) {
+							// 	console.error('No autorizado. Redirigiendo a la página de login...');
+							// 	// Puedes redirigir al usuario a la página de login o mostrar un mensaje de error
+							// }
+						} else if (error.request) {
+							// La solicitud fue hecha pero no hubo respuesta
+							console.log('Error request: ', error.request);
+						} else {
+							// Algo sucedió al configurar la solicitud que provocó un error
+							console.log('Error message: ', error.message);
+						}
+						console.log('Error config: ', error.config);
+					});
 			}
 		},
 		goToLogin() {
