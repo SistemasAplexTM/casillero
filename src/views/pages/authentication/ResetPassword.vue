@@ -62,7 +62,8 @@ export default {
 			loadingPanel: false,
 			ruleForm: {
 				password: '',
-				confirm_password: ''
+				confirm_password: '',
+				agencyId: this.$route.params.agency_id,
 			},
 			rules: {
 				password: [
