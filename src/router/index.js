@@ -7,6 +7,7 @@ import layouts from "../layout";
 import store from "../store";
 // console.log(layouts['navLeft']);
 import ForgotPassword from "@/views/pages/authentication/ForgotPassword.vue";
+import ResetPassword from "@/views/pages/authentication/ResetPassword.vue";
 
 Vue.use(Router);
 
@@ -19,6 +20,15 @@ RoutesDB.push({
   path: "/forgot-password/:agency_id",
   name: "forgot-password",
   component: ForgotPassword,
+  meta: {
+    nav: false,
+    layout: "contenOnly",
+  },
+});
+RoutesDB.push({
+  path: "/reset-password/:agency_id/:token",
+  name: "reset-password",
+  component: ResetPassword,
   meta: {
     nav: false,
     layout: "contenOnly",

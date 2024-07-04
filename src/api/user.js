@@ -29,3 +29,19 @@ export function setContacts(id, data) {
     data
   })
 }
+
+export function sendPasswordReset(data) {
+  return request({
+    url: '/auth/password/email',
+    method: 'post',
+    data
+  })
+}
+
+export function validateToken(data) {
+  return request({
+    url: '/auth/validateToken/',
+    method: 'post',
+    data
+  })
+}
