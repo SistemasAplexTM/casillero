@@ -1,3 +1,26 @@
+2024-11-07
+
+******** DEMO CASILLERO LOCAL **********
+Agencia Comexco
+
+user: apps@aplicacionesexcel.com
+pass: 3103879248
+
+**Agregar estatus para transito:
+
+*** 13 aeropuerto miami
+*** 14 aeropuerto destino
+*** 31 retraso en aduana
+*** 28 retraso en la aerolinea
+*** 11 en aduana
+*** 19 Bodega Bogota
+*** 21 aeropuerto bogota
+*** 25 transito
+26 Bodega Cali
+12 Transportadora local
+
+
+
 2024-06-17
 - agregar boton de subir factura en los trackings.
 
